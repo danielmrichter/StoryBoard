@@ -35,7 +35,6 @@ function ProtectedRoute({ component, children, ...props }) {
         <LoginPage />
       }
     </Route>
-
   );
 }
 

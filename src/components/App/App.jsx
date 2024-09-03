@@ -5,9 +5,7 @@ import {
   Route,
   Switch,
 } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
 
@@ -21,6 +19,9 @@ import LoginPage from "../LoginComponents/LoginPage/LoginPage";
 import RegisterPage from "../LoginComponents/RegisterPage/RegisterPage";
 import "./App.css";
 import Projects from "../Projects/Projects";
+import ProjectView from "../ProjectView/ProjectView";
+import '/node_modules/react-grid-layout/css/styles.css'
+import '/node_modules/react-resizable/css/styles.css'
 
 
 function App() {
@@ -67,6 +68,9 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+          <ProtectedRoute exact path='/projectview/:projectId'>
+            <ProjectView />
           </ProtectedRoute>
 
           <Route exact path="/login">

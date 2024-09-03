@@ -17,6 +17,19 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
+router.get('/items/:id', rejectUnauthenticated, async (req, res) => {
+  const projectId = req.params.id
+  const sqlText = `
+  SELECT "id" AS "i", "x", "y", "w", "h", "bg_color", "card_type", "card_settings" FROM "added_cards"
+	  WHERE "project_id" = $1; `
+    try {
+      const dbRes = await pool.query(sqlText, [projectId])
+      res.send(dbRes.rows)
+    } catch (error) {
+      console.log('Error in GET/api/projects/items/:id: ', error)
+      res.sendStatus(500)
+    }
+})
 
 router.post('/', rejectUnauthenticated, (req, res) => {
     //Expecting to recieve an object in req.body with schema:
