@@ -1,20 +1,14 @@
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Projects() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: "FETCH_PROJECTS", payload: user.id });
+    console.log(user)
+  }, []);
   const user = useSelector((store) => store.user);
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      projectTitle: "A Movie",
-      user: 1,
-    },
-    {
-      id: 2,
-      projectTitle: "The Book",
-      user: 2,
-    },
-  ]);
+  const projects = useSelector((store) => store.projects);
   return (
     <div>
       {projects.map((project) => (
