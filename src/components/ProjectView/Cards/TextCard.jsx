@@ -1,7 +1,22 @@
-export default function TextCard({ item }) {
+import { forwardRef } from "react";
+
+const textCard = forwardRef(function TextCard(
+  { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
+  ref
+) {
   return (
-    <div i={item.id} style={{ backgroundColor: item.bg_color }}>
-      <h1>{item.id}</h1>
+    <div
+      className={className}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
+      onTouchEnd={onTouchEnd}
+      ref={ref}
+      key={item.i}
+      style={{ ...style, backgroundColor: item.bg_color }}
+    >
+      <h1>{item.i}</h1>
     </div>
   );
-}
+});
+
+export default textCard;
