@@ -25,7 +25,7 @@ export default function AddCards({projectId}) {
     //     })}
     // </ResponsiveGridLayout>
     <div>
-        <button>Text</button>
+        <button onClick={() => handleClick( 'text')}>Text</button>
     </div>
   );
 }
