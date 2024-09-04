@@ -61,27 +61,13 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
   try {
     connection = await pool.connect();
     await connection.query("BEGIN;");
-    const deleteQuery = `
-    DELETE FROM "in_progress_edits"
-      WHERE "project_id" = $1`;
-    await connection.query(deleteQuery, [req.body.projectId]);
     await Promise.all(
       req.body.layout.map((item) => {
-        let itemValues = [
-          req.body.projectId,
-          item.x,
-          item.y,
-          item.w,
-          item.h,
-          item.bg_color,
-          item.card_type,
-          item.card_settings,
-        ];
+        let itemValues = [item.x, item.y, item.w, item.h, item.i];
         const itemsQuery = `
-      INSERT INTO "in_progress_edits"
-        ("project_id", "x", "y", "w", "h", "bg_color", "card_type", "card_settings")
-        VALUES
-        ($1, $2, $3, $4, $5, $6, $7, $8);`;
+      UPDATE "added_cards"
+        SET "x" = $1, "y" = $2, "w" = $3, "h" = $4
+        WHERE "id" = $5`;
         return connection.query(itemsQuery, itemValues);
       })
     );
@@ -94,6 +80,12 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
     await connection.release();
     res.sendStatus(500);
   }
+});
+
+router.post("/items", rejectUnauthenticated, (req, res) => {
+  const projectId = req.body.projectId;
+  const newItemType = req.body.cardType;
+  res.sendStatus(200);
 });
 
 module.exports = router;

@@ -20,6 +20,11 @@ const projectCard = forwardRef(function ProjectCard(
           item={item}
         />
       );
+      case 'image':
+        return(
+          <img ref={ref} src="https://pyxis.nymag.com/v1/imgs/09c/923/65324bb3906b6865f904a72f8f8a908541-16-spongebob-explainer.2x.rhorizontal.w700.jpg">
+          </img>
+        )
     default:
       <></>;
   }

@@ -1,11 +1,12 @@
-import { forwardRef, useEffect, useState } from "react";
-import GridLayout from "react-grid-layout";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import ProjectCard from "./ProjectCard/ProjectCard";
 import axios from "axios";
-
+import AddCards from "./AddCards/AddCards";
+import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
 export default function ProjectView() {
+  // const GridLayout = WidthProvider(Responsive)
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECT_ITEMS", payload: projectId });
@@ -16,36 +17,50 @@ export default function ProjectView() {
   // There's a way to intercept it and prevent that behavior. So, The workaround is to instead let it do it's thing,
   // Then PUT the updated item. Then, if there's an error... reset it somehow.
   const [oldLayout, setOldLayout] = useState([]);
-  const  handleLayoutChange = async (layout) => {
+  const handleLayoutChange = async (layout) => {
+    console.log("handleLayoungChange!", layout);
     try {
       await axios.put("/api/projects/items", { projectId, layout });
-      setOldLayout(layout)
+      setOldLayout(layout);
     } catch (error) {
       console.log("Error in PUT/api/projects: ", error);
-      dispatch({type: 'SET_PROJECT_ITEMS', payload: oldLayout})
+      dispatch({ type: "SET_PROJECT_ITEMS", payload: oldLayout });
     }
   };
-  const handleOnDrop = (layout) =>{
-    console.log('handleOnDrop, layout is: ', layout)
-  }
+  const handleOnDrop = (layout) => {
+    console.log("handleOnDrop, layout is: ", layout);
+  };
   const { projectId } = useParams();
   const projectItems = useSelector((store) => store.projectItems);
+  // THE DATA NEEDS TO BE CALLED FOR FROM THE ONCLICK
   return (
-    <div>
-      <GridLayout
-        onLayoutChange={handleLayoutChange}
+    <>
+      <ResponsiveGridLayout
+        className="layout"
+        breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         compactType={null}
         layout={projectItems}
-        cols={12}
-        rowHeight={30}
-        width={1800}
+        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+        rowHeight={100}
+        width={1000}
         onDragStart={(layout) => setOldLayout(layout)}
-        onDrop={handleOnDrop}
+        onDragStop={handleLayoutChange}
       >
         {projectItems.map((item) => (
-          <ProjectCard key={item.i} item={item} />
+          <ProjectCard
+            data-grid={{
+              w: item.w,
+              i: item.i,
+              x: item.x,
+              y: item.y,
+              h: item.h,
+            }}
+            key={item.i}
+            item={item}
+          />
         ))}
-      </GridLayout>
-    </div>
+      </ResponsiveGridLayout>
+      <AddCards projectId={projectId} />
+    </>
   );
 }
