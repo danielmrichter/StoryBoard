@@ -5,9 +5,6 @@ const projectCard = forwardRef(function ProjectCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
   ref
 ) {
-  useEffect(() => {
-    console.log("Hi: ", item.card_type);
-  }, []);
 
   switch (item.card_type) {
     case "text":
