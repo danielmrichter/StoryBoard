@@ -85,7 +85,18 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
 router.post("/items", rejectUnauthenticated, (req, res) => {
   const projectId = req.body.projectId;
   const newItemType = req.body.cardType;
-  res.sendStatus(200);
+  const sqlText = `
+  INSERT INTO "added_cards"
+  ("project_id", "card_type")
+  VALUES
+  ($1, $2)`;
+  pool
+    .query(sqlText, [projectId, newItemType])
+    .then((dbRes) => res.sendStatus(200))
+    .catch((dbErr) => {
+      console.log("Error in POST/api/projects/items: ", dbErr);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
