@@ -1,15 +1,30 @@
 import { useDispatch } from "react-redux";
 import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
+import {
+  Button,
+  Drawer,
+  DrawerCloseButton,
+  DrawerContent,
+  DrawerHeader,
+} from "@chakra-ui/react";
 
+// Currently, this exports a Drawer that has buttons to add stuff.
+// In the future, I want this to also have drag and drop ability.
 
-export default function AddCards({projectId}) {
-    const dispatch = useDispatch()
-    const handleClick = (cardType) => {
-        dispatch({type: 'ADD_CARD', payload: {cardType, projectId}})
-    }
-    const cards = [{
-        i: 'text', x: 1, y: 1, h: 1, w: 1
-    }]
+export default function AddCards({ isOpen, onClose, projectId }) {
+  const dispatch = useDispatch();
+  const handleClick = (cardType) => {
+    dispatch({ type: "ADD_CARD", payload: { cardType, projectId } });
+  };
+  const cards = [
+    {
+      i: "text",
+      x: 1,
+      y: 1,
+      h: 1,
+      w: 1,
+    },
+  ];
   return (
     // <ResponsiveGridLayout
     //     className="layout"
@@ -24,8 +39,19 @@ export default function AddCards({projectId}) {
     //         <button style={{backgroundColor: "black"}} key={card.i}>{card.i}</button>
     //     })}
     // </ResponsiveGridLayout>
-    <div>
-        <button onClick={() => handleClick( 'text')}>Text</button>
-    </div>
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
+      <DrawerContent>
+        <DrawerCloseButton />
+        <DrawerHeader>Add a New Card</DrawerHeader>
+        <Button
+          onClick={() => {
+            handleClick("text");
+            onClose();
+          }}
+        >
+          Text
+        </Button>
+      </DrawerContent>
+    </Drawer>
   );
 }

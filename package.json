@@ -6,12 +6,16 @@
     "node": ">=18.x"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "connect-pg-simple": "^9.0.1",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "express-session": "^1.18.0",
+    "framer-motion": "^11.5.2",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "pg": "^8.5.1",
