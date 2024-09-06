@@ -8,11 +8,22 @@ import {
   CardBody,
   CardFooter,
   Flex,
+  FormControl,
+  FormLabel,
+  Input,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
   Spacer,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
+import ProjectItem from "./ProjectItem";
 
 export default function Projects() {
   const dispatch = useDispatch();
@@ -21,35 +32,15 @@ export default function Projects() {
   }, []);
   const user = useSelector((store) => store.user);
   const projects = useSelector((store) => store.projects);
-  const history = useHistory();
-  const handleProjectView = (id) => {
-    history.push(`/projectview/${id}`);
-  };
   const { isOpen, onOpen, onClose } = useDisclosure();
+  
   return (
     <Flex direction="column">
       <CreateProjectForm isOpen={isOpen} onClose={onClose} />
       <Flex align="center" direction="column">
         {projects.map((project) => (
-          <Card
-            m={5}
-            size="sm"
-            variant="filled"
-            direction="row"
-            key={project.id}
-            onClick={() => handleProjectView(project.id)}
-          >
-            <CardBody>
-              <Text>{project.project_name}</Text>
-            </CardBody>
-            <CardFooter>
-              <Stack>
-                <Button>Delete</Button>
-                <Button>Edit</Button>
-              </Stack>
-            </CardFooter>
-          </Card>
-        ))}
+          <ProjectItem key={project.id} project={project}/>
+          ))}
       </Flex>
       <Spacer />
       <Button alignSelf="flex-end" onClick={onOpen}>
