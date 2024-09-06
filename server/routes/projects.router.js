@@ -17,20 +17,6 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-router.get("/items/:id", rejectUnauthenticated, async (req, res) => {
-  const projectId = req.params.id;
-  const sqlText = `
-  SELECT "id" AS "i", "x", "y", "w", "h", "bg_color", "card_type", "card_settings" FROM "added_cards"
-	  WHERE "project_id" = $1; `;
-  try {
-    const dbRes = await pool.query(sqlText, [projectId]);
-    res.send(dbRes.rows);
-  } catch (error) {
-    console.log("Error in GET/api/projects/items/:id: ", error);
-    res.sendStatus(500);
-  }
-});
-
 router.post("/", rejectUnauthenticated, (req, res) => {
   //Expecting to recieve an object in req.body with schema:
   // {project: {
@@ -52,7 +38,30 @@ router.post("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
+  const sqlText = `
+  DELETE FROM "projects"
+    WHERE "id" = $1`;
+  pool
+    .query(sqlText, [req.params.id])
+    .then((dbRes) => res.sendStatus(200))
+    .catch((dbErr) => {
+      console.log("Error in DELETE/api/projects/:id: ", dbErr);
+      res.sendStatus(500);
+    });
+});
+router.patch("/:id", rejectUnauthenticated, (req, res) => {
+  const sqlText = `UPDATE "projects"
+    SET "project_name" = $1
+    WHERE "id" =$2`;
+  pool
+    .query(sqlText, [req.body.name, req.params.id])
+    .then((dbRes) => res.sendStatus(200))
+    .catch((dbErr) => {
+      console.log("ERROR in patch/api/projects: ", dbErr);
+      res.sendStatus(500);
+    });
+});
 //This is expecting to recieve req.body to contain an object with:
 //  projectId
 //  layout (an array of objects)
@@ -81,7 +90,6 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
-
 router.post("/items", rejectUnauthenticated, (req, res) => {
   const projectId = req.body.projectId;
   const newItemType = req.body.cardType;
@@ -126,5 +134,17 @@ router.patch("/items", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-
+router.get("/items/:id", rejectUnauthenticated, async (req, res) => {
+  const projectId = req.params.id;
+  const sqlText = `
+  SELECT "id" AS "i", "x", "y", "w", "h", "bg_color", "card_type", "card_settings" FROM "added_cards"
+	  WHERE "project_id" = $1; `;
+  try {
+    const dbRes = await pool.query(sqlText, [projectId]);
+    res.send(dbRes.rows);
+  } catch (error) {
+    console.log("Error in GET/api/projects/items/:id: ", error);
+    res.sendStatus(500);
+  }
+});
 module.exports = router;

@@ -14,10 +14,19 @@ function* addProject(action) {
   yield axios.post("/api/projects", { project });
   yield put({ type: "FETCH_PROJECTS" });
 }
-
+function* deleteProject(action) {
+  yield axios.delete(`/api/projects/${action.payload}`);
+  yield put({ type: "FETCH_PROJECTS" });
+}
+function* updateProjectName(action) {
+  yield axios.patch(`/api/projects/${action.payload.project}`, {name: action.payload.projectName});
+  yield put({ type: "FETCH_PROJECTS" });
+}
 function* projectsSaga() {
   yield takeLatest("FETCH_PROJECTS", fetchProjects);
   yield takeLatest("ADD_PROJECT", addProject);
+  yield takeLatest("DELETE_PROJECT", deleteProject);
+  yield takeLatest("UPDATE_PROJECT_NAME", updateProjectName);
 }
 
 export default projectsSaga;
