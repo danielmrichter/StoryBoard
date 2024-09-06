@@ -22,7 +22,7 @@ function* addCard(action) {
     console.log("error adding card: ", error);
   }
 }
-function* setCardText(action) {
+function* setCardSettings(action) {
   try {
     yield axios.patch(`/api/projects/items/${action.payload.id}`, action.payload);
     yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload.projectId });
@@ -34,6 +34,6 @@ function* setCardText(action) {
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
   yield takeLatest("ADD_CARD", addCard);
-  yield takeLatest("SET_CARD_SETTINGS", setCardText);
+  yield takeLatest("SET_CARD_SETTINGS", setCardSettings);
 }
 export default projectItemsSaga;

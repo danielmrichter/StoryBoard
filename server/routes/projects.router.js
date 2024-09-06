@@ -106,13 +106,14 @@ router.post("/items", rejectUnauthenticated, (req, res) => {
 router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
   const itemId = req.params.id;
   const itemSettings = req.body.settings;
+  const backgroundColor = req.body.backgroundColor
   const sqlText = `
   UPDATE "added_cards"
-    SET "card_settings" = $1
-    WHERE "id" = $2
+    SET "card_settings" = $1, bg_color = $2
+    WHERE "id" = $3
     `;
   pool
-    .query(sqlText, [itemSettings, itemId])
+    .query(sqlText, [itemSettings, backgroundColor, itemId])
     .then((dbRes) => {
       res.sendStatus(200);
     })

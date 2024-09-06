@@ -9,6 +9,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Text,
+  Textarea,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
@@ -21,13 +22,15 @@ const textCard = forwardRef(function TextCard(
 ) {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(item.card_settings.text);
+  const [backgroundColor, setBackgroundColor] = useState(item.bg_color);
   const { projectId } = useParams();
-  const handleTextChange = () => {
+  const handlePopoverClose = () => {
     dispatch({
       type: "SET_CARD_SETTINGS",
       payload: {
         id: item.i,
         settings: { ...item.card_settings, text: inputValue },
+        backgroundColor,
         projectId,
       },
     });
@@ -38,7 +41,7 @@ const textCard = forwardRef(function TextCard(
       <div
         className={className}
         onMouseDown={isOpen ? undefined : onMouseDown}
-        onMouseUp={isOpen ? undefined: onMouseUp}
+        onMouseUp={isOpen ? undefined : onMouseUp}
         onDoubleClick={() => console.log("double click")}
         onTouchEnd={onTouchEnd}
         ref={ref}
@@ -46,27 +49,34 @@ const textCard = forwardRef(function TextCard(
         style={{ ...style, backgroundColor: item.bg_color }}
         data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
       >
-        <Popover
-          isOpen={isOpen}
-          onClose={handleTextChange}
-          closeOnBlur={true}
-        >
+        <Popover isOpen={isOpen} onClose={handlePopoverClose} closeOnBlur={true}>
           <Text>{item.card_settings.text}</Text>
           <PopoverTrigger>
-            <IconButton zIndex={1} onClick={onToggle} size="sm" icon={<EditIcon />} />
+            <IconButton
+              zIndex={1}
+              onClick={onToggle}
+              size="sm"
+              icon={<EditIcon />}
+            />
           </PopoverTrigger>
           <PopoverContent>
             <PopoverHeader>Edit Contents</PopoverHeader>
             <PopoverCloseButton
               onClick={() => {
-                handleTextChange();
+                handlePopoverClose();
                 onClose();
               }}
             />
             <PopoverBody>
-              <Input
+              <Textarea
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
+              />
+              <Text>Background Color: </Text>
+              <input
+                type="color"
+                value={backgroundColor}
+                onChange={(e) => setBackgroundColor(e.target.value)}
               />
             </PopoverBody>
           </PopoverContent>
