@@ -2,7 +2,17 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CreateProjectForm from "../CreateProjectForm/CreateProjectForm";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-import { Button, Card, CardBody, Flex, Spacer, Text, useDisclosure } from "@chakra-ui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  Flex,
+  Spacer,
+  Stack,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 export default function Projects() {
   const dispatch = useDispatch();
@@ -17,14 +27,14 @@ export default function Projects() {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Flex direction='column'>
+    <Flex direction="column">
       <CreateProjectForm isOpen={isOpen} onClose={onClose} />
-      <Flex align='flex-end' direction='column' >
+      <Flex align="center" direction="column">
         {projects.map((project) => (
           <Card
             m={5}
-            size='sm'
-            variant='filled'
+            size="sm"
+            variant="filled"
             direction="row"
             key={project.id}
             onClick={() => handleProjectView(project.id)}
@@ -32,11 +42,19 @@ export default function Projects() {
             <CardBody>
               <Text>{project.project_name}</Text>
             </CardBody>
+            <CardFooter>
+              <Stack>
+                <Button>Delete</Button>
+                <Button>Edit</Button>
+              </Stack>
+            </CardFooter>
           </Card>
         ))}
       </Flex>
       <Spacer />
-      <Button alignSelf='flex-end' onClick={onOpen}>New Project</Button>
+      <Button alignSelf="flex-end" onClick={onOpen}>
+        New Project
+      </Button>
     </Flex>
   );
 }

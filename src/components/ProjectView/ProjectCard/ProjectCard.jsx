@@ -1,5 +1,6 @@
-import { forwardRef, useEffect, useState } from "react";
+import { forwardRef } from "react";
 import TextCard from "../Cards/TextCard";
+import ImageCard from "../Cards/ImageCard";
 
 const projectCard = forwardRef(function ProjectCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
@@ -19,11 +20,19 @@ const projectCard = forwardRef(function ProjectCard(
           item={item}
         />
       );
-      case 'image':
-        return(
-          <img ref={ref} src="https://pyxis.nymag.com/v1/imgs/09c/923/65324bb3906b6865f904a72f8f8a908541-16-spongebob-explainer.2x.rhorizontal.w700.jpg">
-          </img>
-        )
+    case "image":
+      return (
+        <ImageCard
+          style={style}
+          className={className}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onTouchEnd={onTouchEnd}
+          ref={ref}
+          key={item.i}
+          item={item}
+        />
+      );
     default:
       <></>;
   }

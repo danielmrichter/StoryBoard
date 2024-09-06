@@ -11,10 +11,9 @@ const textCard = forwardRef(function TextCard(
   const [inputValue, setInputValue] = useState(item.card_settings.text);
   const isEditing = useSelector((store) => store.isEditing);
   const { projectId } = useParams();
-
   const handleTextChange = (e) => {
     dispatch({
-      type: "SET_CARD_TEXT",
+      type: "SET_CARD_SETTINGS",
       payload: {
         id: item.i,
         settings: { ...item.card_settings, text: e.target.value },
