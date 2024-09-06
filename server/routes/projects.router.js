@@ -85,16 +85,38 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
 router.post("/items", rejectUnauthenticated, (req, res) => {
   const projectId = req.body.projectId;
   const newItemType = req.body.cardType;
-  const sqlText = `
-  INSERT INTO "added_cards"
-  ("project_id", "card_type")
-  VALUES
-  ($1, $2)`;
+  let sqlText;
+  switch (req.body.cardType) {
+    case "text":
+      sqlText = `
+      INSERT INTO "added_cards"
+         ("project_id", "card_type", "card_settings")
+          VALUES
+          ($1, $2, '{"text": "text"}')`;
+  }
   pool
     .query(sqlText, [projectId, newItemType])
     .then((dbRes) => res.sendStatus(200))
     .catch((dbErr) => {
       console.log("Error in POST/api/projects/items: ", dbErr);
+      res.sendStatus(500);
+    });
+});
+router.patch("/items", rejectUnauthenticated, (req, res) => {
+  const itemId = req.body.id;
+  const itemSettings = req.body.settings;
+  const sqlText = `
+  UPDATE "added_cards"
+    SET "card_settings" = $1
+    WHERE "id" = $2
+    `;
+  pool
+    .query(sqlText, [itemSettings, itemId])
+    .then((dbRes) => {
+      res.sendStatus(200);
+    })
+    .catch((dbErr) => {
+      console.log("Error updating item!", dbErr);
       res.sendStatus(500);
     });
 });
