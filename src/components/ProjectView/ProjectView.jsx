@@ -9,9 +9,13 @@ import { Button, useDisclosure } from "@chakra-ui/react";
 export default function ProjectView() {
   // const GridLayout = WidthProvider(Responsive)
   const dispatch = useDispatch();
+  const { projectId } = useParams();
+  // This grabs relevent info to the current project.
+  const projectItems = useSelector((store) => store.projectItems);
+
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECT_ITEMS", payload: projectId });
-  }, []);
+  }, [projectId]);
   // These functions handle data permanence. They will dispatch to redux to PUT the updated projectItems.
   // There is a bit of error handling here. See, react-grid-layout doesn't wait for this to resolve, it just
   // mutates the data directly. So, in case of a fail, it'll use a saved state from when the item was
@@ -31,11 +35,14 @@ export default function ProjectView() {
     console.log("handleOnDrop, layout is: ", layout);
   };
   //This is for handling the Drawer that adds items.
-  const {isOpen, onOpen, onClose} = useDisclosure()
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // This grabs relevent info to the current project.
-  const { projectId } = useParams();
-  const projectItems = useSelector((store) => store.projectItems);
+  // This is for setting edit mode.
+  const handleEditButtonClick = () => {
+    dispatch({ type: "SET_IS_EDITING", payload: !isEditing });
+  };
+  const isEditing = useSelector((store) => store.isEditing);
+
   return (
     <>
       <ResponsiveGridLayout
@@ -45,7 +52,7 @@ export default function ProjectView() {
         layout={projectItems}
         cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
         rowHeight={100}
-        width={1000}
+        width={1200}
         onDragStart={(layout) => setOldLayout(layout)}
         onDragStop={handleLayoutChange}
       >
@@ -64,6 +71,7 @@ export default function ProjectView() {
         ))}
       </ResponsiveGridLayout>
       <Button onClick={onOpen}>Add New Card</Button>
+      <Button onClick={handleEditButtonClick}>Edit Mode</Button>
       <AddCards isOpen={isOpen} onClose={onClose} projectId={projectId} />
     </>
   );
