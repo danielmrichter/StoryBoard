@@ -1,4 +1,16 @@
-import { Input, Text } from "@chakra-ui/react";
+import { EditIcon } from "@chakra-ui/icons";
+import {
+  IconButton,
+  Input,
+  Popover,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
+  Text,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
@@ -9,39 +21,58 @@ const textCard = forwardRef(function TextCard(
 ) {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState(item.card_settings.text);
-  const isEditing = useSelector((store) => store.isEditing);
   const { projectId } = useParams();
-  const handleTextChange = (e) => {
+  const handleTextChange = () => {
     dispatch({
       type: "SET_CARD_SETTINGS",
       payload: {
         id: item.i,
-        settings: { ...item.card_settings, text: e.target.value },
-        projectId
+        settings: { ...item.card_settings, text: inputValue },
+        projectId,
       },
     });
-    setInputValue(e.target.value);
   };
+  const { isOpen, onToggle, onClose } = useDisclosure();
   return (
-    <div
-      className={className}
-      onMouseDown={!isEditing ? onMouseDown : undefined}
-      onMouseUp={!isEditing ? onMouseUp : undefined}
-      onTouchEnd={onTouchEnd}
-      ref={ref}
-      key={item.i}
-      style={{ ...style, backgroundColor: item.bg_color }}
-      data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
-    >
-      {isEditing && (
-        <Input
-          onChange={handleTextChange}
-          variant="unstyled"
-          value={inputValue}
-        />
-      )}
-      {!isEditing && <Text>{item.card_settings.text}</Text>}
-    </div>
+    <>
+      <div
+        className={className}
+        onMouseDown={isOpen ? undefined : onMouseDown}
+        onMouseUp={isOpen ? undefined: onMouseUp}
+        onDoubleClick={() => console.log("double click")}
+        onTouchEnd={onTouchEnd}
+        ref={ref}
+        key={item.i}
+        style={{ ...style, backgroundColor: item.bg_color }}
+        data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
+      >
+        <Popover
+          isOpen={isOpen}
+          onClose={handleTextChange}
+          closeOnBlur={true}
+        >
+          <Text>{item.card_settings.text}</Text>
+          <PopoverTrigger>
+            <IconButton zIndex={1} onClick={onToggle} size="sm" icon={<EditIcon />} />
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverHeader>Edit Contents</PopoverHeader>
+            <PopoverCloseButton
+              onClick={() => {
+                handleTextChange();
+                onClose();
+              }}
+            />
+            <PopoverBody>
+              <Input
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
   );
 });
 

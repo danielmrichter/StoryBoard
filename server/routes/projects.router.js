@@ -4,6 +4,7 @@ const {
 } = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
 const router = express.Router();
+const setItemType = require('../api services/setItemType')
 
 router.get("/", rejectUnauthenticated, (req, res) => {
   const sqlText = `
@@ -93,23 +94,7 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
 router.post("/items", rejectUnauthenticated, (req, res) => {
   const projectId = req.body.projectId;
   const newItemType = req.body.cardType;
-  let sqlText;
-  switch (req.body.cardType) {
-    case "text":
-      sqlText = `
-      INSERT INTO "added_cards"
-         ("project_id", "card_type", "card_settings")
-          VALUES
-          ($1, $2, '{"text": "text"}');`;
-      break;
-    case "image":
-      sqlText = `
-      INSERT INTO "added_cards"
-         ("project_id", "card_type", "card_settings")
-          VALUES
-          ($1, $2, '{"img_url": "https://pyxis.nymag.com/v1/imgs/09c/923/65324bb3906b6865f904a72f8f8a908541-16-spongebob-explainer.2x.rhorizontal.w700.jpg"}');`;
-      break;
-  }
+  const sqlText = setItemType(newItemType)
   pool
     .query(sqlText, [projectId, newItemType])
     .then((dbRes) => res.sendStatus(200))
@@ -118,8 +103,8 @@ router.post("/items", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-router.patch("/items", rejectUnauthenticated, (req, res) => {
-  const itemId = req.body.id;
+router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
+  const itemId = req.params.id;
   const itemSettings = req.body.settings;
   const sqlText = `
   UPDATE "added_cards"

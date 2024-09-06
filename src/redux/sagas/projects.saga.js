@@ -19,7 +19,7 @@ function* deleteProject(action) {
   yield put({ type: "FETCH_PROJECTS" });
 }
 function* updateProjectName(action) {
-  yield axios.patch(`/api/projects/${action.payload.project}`, {name: action.payload.projectName});
+  yield axios.patch(`/api/projects/${action.payload.id}`, {name: action.payload.projectName});
   yield put({ type: "FETCH_PROJECTS" });
 }
 function* projectsSaga() {

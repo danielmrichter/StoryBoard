@@ -4,23 +4,8 @@ import CreateProjectForm from "../CreateProjectForm/CreateProjectForm";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import {
   Button,
-  Card,
-  CardBody,
-  CardFooter,
   Flex,
-  FormControl,
-  FormLabel,
-  Input,
-  Popover,
-  PopoverArrow,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
   Spacer,
-  Stack,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import ProjectItem from "./ProjectItem";

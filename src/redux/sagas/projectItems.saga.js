@@ -24,7 +24,7 @@ function* addCard(action) {
 }
 function* setCardText(action) {
   try {
-    yield axios.patch("/api/projects/items", action.payload);
+    yield axios.patch(`/api/projects/items/${action.payload.id}`, action.payload);
     yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload.projectId });
   } catch (error) {
     console.log("Error setting Card Text! ", error);
