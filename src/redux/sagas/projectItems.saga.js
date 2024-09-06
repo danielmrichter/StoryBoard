@@ -34,6 +34,6 @@ function* setCardText(action) {
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
   yield takeLatest("ADD_CARD", addCard);
-  yield takeLatest("SET_CARD_TEXT", setCardText);
+  yield takeLatest("SET_CARD_SETTINGS", setCardText);
 }
 export default projectItemsSaga;
