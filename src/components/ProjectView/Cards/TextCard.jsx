@@ -4,13 +4,15 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  Container,
+  Heading,
   IconButton,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
 import PopoverCardEditForm from "./PopoverBody/PopoverCardEditForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DeleteModal from "./DeleteModal/DeleteModal";
 
 const textCard = forwardRef(function TextCard(
@@ -21,12 +23,15 @@ const textCard = forwardRef(function TextCard(
   // Delete Modal Stuff
   const handleDelete = () => {
     dispatch({ type: "DELETE_CARD", payload: item.i });
-    setIsDeleteModalOpen(false)
+    setIsDeleteModalOpen(false);
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   // Edit Form Stuff
   const { isOpen, onToggle, onClose } = useDisclosure();
+
+  const isEditing = useSelector((store) => store.isEditing);
+
   return (
     <div
       className={className}
@@ -35,17 +40,21 @@ const textCard = forwardRef(function TextCard(
       onTouchEnd={onTouchEnd}
       ref={ref}
       key={item.i}
-      style={{ ...style, backgroundColor: item.bg_color }}
+      style={style}
       data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
     >
-      <Card>
+      <Card bgColor={item.bg_color}>
         {item.card_header && (
           <CardHeader>
-            <Text fontSize="lg">{item.card_header}</Text>
+            <Container centerContent>
+              <Heading as="h5" size="md">
+                {item.card_header}
+              </Heading>
+            </Container>
           </CardHeader>
         )}
         <CardBody>
-          <Text>{item.card_settings.text}</Text>
+          <Text whiteSpace='pre-wrap'>{item.card_settings.text}</Text>
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal
             isOpen={isDeleteModalOpen}
@@ -55,7 +64,7 @@ const textCard = forwardRef(function TextCard(
             }}
           />
         </CardBody>
-        <CardFooter>
+        {isEditing && <CardFooter>
           <IconButton
             zIndex={1}
             onClick={onToggle}
@@ -69,7 +78,7 @@ const textCard = forwardRef(function TextCard(
             zIndex={1}
             onClick={() => setIsDeleteModalOpen(true)}
           />
-        </CardFooter>
+        </CardFooter>}
       </Card>
     </div>
   );

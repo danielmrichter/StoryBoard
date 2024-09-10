@@ -44,8 +44,18 @@ export default function ProjectItem({ project }) {
   };
   const { onOpen, onClose, isOpen } = useDisclosure();
   return (
-    <Card m={5} size="lg" variant="filled" direction="row" key={project.id}>
-      <CardBody onClick={() => handleProjectView(project.id)}>
+    <Card
+      minWidth="50vw"
+      m={5}
+      size="lg"
+      variant="filled"
+      direction="row"
+      key={project.id}
+    >
+      <CardBody
+        alignContent="center"
+        onClick={() => handleProjectView(project.id)}
+      >
         <Text>{project.project_name}</Text>
       </CardBody>
       <CardFooter>

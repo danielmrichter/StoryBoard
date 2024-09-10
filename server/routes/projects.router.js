@@ -18,7 +18,19 @@ router.get("/", rejectUnauthenticated, (req, res) => {
       res.sendStatus(500);
     });
 });
-router.post("/", rejectUnauthenticated, (req, res) => {
+router.get("/:id", rejectUnauthenticated, (req, res) => {
+  const sqlValues = [req.params.id];
+  const sqlText = `SELECT "user_id" FROM "projects"
+    WHERE "id" = $1;`;
+  pool
+    .query(sqlText, sqlValues)
+    .then((dbRes) => res.send(dbRes.rows[0]))
+    .catch((dbErr) => {
+      console.log("Error fetching project owner: ", dbErr);
+      res.sendStatus(500);
+    });
+});
+router.post("/", rejectUnauthenticated, async (req, res) => {
   //Expecting to recieve an object in req.body with schema:
   // {project: {
   //              projectName,
@@ -29,15 +41,26 @@ router.post("/", rejectUnauthenticated, (req, res) => {
     INSERT INTO "projects"
         (project_name, user_id)
         VALUES
-        ($1, $2);`;
+        ($1, $2)
+        RETURNING "id";`;
   const sqlValues = [project.projectName, project.user.id];
-  pool
-    .query(sqlText, sqlValues)
-    .then((dbRes) => res.sendStatus(201))
-    .catch((dbErr) => {
-      console.log("Error in POST/api/projects! ", dbErr);
-      res.sendStatus(500);
-    });
+  try {
+    const projectInsert = await pool.query(sqlText, sqlValues);
+    const newProjectId = projectInsert.rows[0].id
+    // wip
+    const titleCardSqlText = `
+      INSERT INTO "added_cards"
+         ("project_id", "card_type", "card_settings")
+          VALUES
+          ('${newProjectId}', 'title', '{"text": "Title Goes Here"}')
+          ('${newProjectId}', );`;
+
+    // await pool.query(titleCardSqlText);
+    res.sendStatus(201);
+  } catch (error) {
+    console.log("Error adding a new project: ", error);
+    res.sendStatus(500);
+  }
 });
 router.delete("/:id", rejectUnauthenticated, (req, res) => {
   const sqlText = `
