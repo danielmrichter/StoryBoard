@@ -1,4 +1,4 @@
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Card,
   CardBody,
@@ -10,11 +10,22 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
 import PopoverCardEditForm from "./PopoverBody/PopoverCardEditForm";
+import { useDispatch } from "react-redux";
+import DeleteModal from "./DeleteModal/DeleteModal";
 
 const textCard = forwardRef(function TextCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
   ref
 ) {
+  const dispatch = useDispatch();
+  // Delete Modal Stuff
+  const handleDelete = () => {
+    dispatch({ type: "DELETE_CARD", payload: item.i });
+    setIsDeleteModalOpen(false)
+  };
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // Edit Form Stuff
   const { isOpen, onToggle, onClose } = useDisclosure();
   return (
     <div
@@ -35,6 +46,14 @@ const textCard = forwardRef(function TextCard(
         )}
         <CardBody>
           <Text>{item.card_settings.text}</Text>
+          <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
+          <DeleteModal
+            isOpen={isDeleteModalOpen}
+            handleDelete={handleDelete}
+            onCancelFn={() => {
+              setIsDeleteModalOpen(false);
+            }}
+          />
         </CardBody>
         <CardFooter>
           <IconButton
@@ -42,8 +61,14 @@ const textCard = forwardRef(function TextCard(
             onClick={onToggle}
             size="sm"
             icon={<EditIcon />}
+            mr={2}
           />
-          <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
+          <IconButton
+            size="sm"
+            icon={<DeleteIcon />}
+            zIndex={1}
+            onClick={() => setIsDeleteModalOpen(true)}
+          />
         </CardFooter>
       </Card>
     </div>

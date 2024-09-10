@@ -150,4 +150,16 @@ router.get("/items/:id", rejectUnauthenticated, async (req, res) => {
     res.sendStatus(500);
   }
 });
+router.delete("/items/:id", rejectUnauthenticated, (req, res) => {
+  const sqlText = `
+    DELETE FROM "added_cards"
+      WHERE "id" = $1`;
+  pool
+    .query(sqlText, [req.params.id])
+    .then((dbRes) => res.sendStatus(200))
+    .catch((dbErr) => {
+      console.log("Error deleting card: ", dbErr);
+      res.sendStatus(500);
+    });
+});
 module.exports = router;
