@@ -1,78 +1,77 @@
-import { EditIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   IconButton,
-  Input,
-  Popover,
-  PopoverBody,
-  PopoverCloseButton,
-  PopoverContent,
-  PopoverHeader,
-  PopoverTrigger,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import PopoverCardEditForm from "./PopoverBody/PopoverCardEditForm";
+import { useDispatch } from "react-redux";
+import DeleteModal from "./DeleteModal/DeleteModal";
 
 const textCard = forwardRef(function TextCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
   ref
 ) {
   const dispatch = useDispatch();
-  const [inputValue, setInputValue] = useState(item.card_settings.text);
-  const { projectId } = useParams();
-  const handleTextChange = () => {
-    dispatch({
-      type: "SET_CARD_SETTINGS",
-      payload: {
-        id: item.i,
-        settings: { ...item.card_settings, text: inputValue },
-        projectId,
-      },
-    });
+  // Delete Modal Stuff
+  const handleDelete = () => {
+    dispatch({ type: "DELETE_CARD", payload: item.i });
+    setIsDeleteModalOpen(false)
   };
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  // Edit Form Stuff
   const { isOpen, onToggle, onClose } = useDisclosure();
   return (
-    <>
-      <div
-        className={className}
-        onMouseDown={isOpen ? undefined : onMouseDown}
-        onMouseUp={isOpen ? undefined: onMouseUp}
-        onDoubleClick={() => console.log("double click")}
-        onTouchEnd={onTouchEnd}
-        ref={ref}
-        key={item.i}
-        style={{ ...style, backgroundColor: item.bg_color }}
-        data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
-      >
-        <Popover
-          isOpen={isOpen}
-          onClose={handleTextChange}
-          closeOnBlur={true}
-        >
+    <div
+      className={className}
+      onMouseDown={isOpen ? undefined : onMouseDown}
+      onMouseUp={isOpen ? undefined : onMouseUp}
+      onTouchEnd={onTouchEnd}
+      ref={ref}
+      key={item.i}
+      style={{ ...style, backgroundColor: item.bg_color }}
+      data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
+    >
+      <Card>
+        {item.card_header && (
+          <CardHeader>
+            <Text fontSize="lg">{item.card_header}</Text>
+          </CardHeader>
+        )}
+        <CardBody>
           <Text>{item.card_settings.text}</Text>
-          <PopoverTrigger>
-            <IconButton zIndex={1} onClick={onToggle} size="sm" icon={<EditIcon />} />
-          </PopoverTrigger>
-          <PopoverContent>
-            <PopoverHeader>Edit Contents</PopoverHeader>
-            <PopoverCloseButton
-              onClick={() => {
-                handleTextChange();
-                onClose();
-              }}
-            />
-            <PopoverBody>
-              <Input
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-              />
-            </PopoverBody>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </>
+          <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
+          <DeleteModal
+            isOpen={isDeleteModalOpen}
+            handleDelete={handleDelete}
+            onCancelFn={() => {
+              setIsDeleteModalOpen(false);
+            }}
+          />
+        </CardBody>
+        <CardFooter>
+          <IconButton
+            zIndex={1}
+            onClick={onToggle}
+            size="sm"
+            icon={<EditIcon />}
+            mr={2}
+          />
+          <IconButton
+            size="sm"
+            icon={<DeleteIcon />}
+            zIndex={1}
+            onClick={() => setIsDeleteModalOpen(true)}
+          />
+        </CardFooter>
+      </Card>
+    </div>
   );
 });
 

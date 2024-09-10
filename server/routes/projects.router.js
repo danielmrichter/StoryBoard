@@ -4,7 +4,7 @@ const {
 } = require("../modules/authentication-middleware");
 const pool = require("../modules/pool");
 const router = express.Router();
-const setItemType = require('../api services/setItemType')
+const setItemType = require("../api services/setItemType");
 
 router.get("/", rejectUnauthenticated, (req, res) => {
   const sqlText = `
@@ -94,7 +94,7 @@ router.put("/items", rejectUnauthenticated, async (req, res) => {
 router.post("/items", rejectUnauthenticated, (req, res) => {
   const projectId = req.body.projectId;
   const newItemType = req.body.cardType;
-  const sqlText = setItemType(newItemType)
+  const sqlText = setItemType(newItemType);
   pool
     .query(sqlText, [projectId, newItemType])
     .then((dbRes) => res.sendStatus(200))
@@ -106,13 +106,29 @@ router.post("/items", rejectUnauthenticated, (req, res) => {
 router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
   const itemId = req.params.id;
   const itemSettings = req.body.settings;
+  const backgroundColor = req.body.backgroundColor;
+  const itemHeader = req.body.cardHeader;
+  const itemHeight = req.body.h;
+  const itemWidth = req.body.w;
   const sqlText = `
   UPDATE "added_cards"
-    SET "card_settings" = $1
-    WHERE "id" = $2
+    SET "card_settings" = $2,
+    "bg_color" = $3, 
+    "card_header" = $4,
+    "h" = $5,
+    "w" = $6
+
+    WHERE "id" = $1;
     `;
   pool
-    .query(sqlText, [itemSettings, itemId])
+    .query(sqlText, [
+      itemId,
+      itemSettings,
+      backgroundColor,
+      itemHeader,
+      itemHeight,
+      itemWidth,
+    ])
     .then((dbRes) => {
       res.sendStatus(200);
     })
@@ -124,7 +140,7 @@ router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
 router.get("/items/:id", rejectUnauthenticated, async (req, res) => {
   const projectId = req.params.id;
   const sqlText = `
-  SELECT "id" AS "i", "x", "y", "w", "h", "bg_color", "card_type", "card_settings" FROM "added_cards"
+  SELECT "id" AS "i", "x", "y", "w", "h", "bg_color", "card_type", "card_settings", "card_header" FROM "added_cards"
 	  WHERE "project_id" = $1; `;
   try {
     const dbRes = await pool.query(sqlText, [projectId]);
@@ -133,5 +149,17 @@ router.get("/items/:id", rejectUnauthenticated, async (req, res) => {
     console.log("Error in GET/api/projects/items/:id: ", error);
     res.sendStatus(500);
   }
+});
+router.delete("/items/:id", rejectUnauthenticated, (req, res) => {
+  const sqlText = `
+    DELETE FROM "added_cards"
+      WHERE "id" = $1`;
+  pool
+    .query(sqlText, [req.params.id])
+    .then((dbRes) => res.sendStatus(200))
+    .catch((dbErr) => {
+      console.log("Error deleting card: ", dbErr);
+      res.sendStatus(500);
+    });
 });
 module.exports = router;

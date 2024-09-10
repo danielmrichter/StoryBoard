@@ -22,18 +22,33 @@ function* addCard(action) {
     console.log("error adding card: ", error);
   }
 }
-function* setCardText(action) {
+function* setCardSettings(action) {
   try {
-    yield axios.patch(`/api/projects/items/${action.payload.id}`, action.payload);
-    yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload.projectId });
+    yield axios.patch(
+      `/api/projects/items/${action.payload.id}`,
+      action.payload
+    );
+    yield put({
+      type: "FETCH_PROJECT_ITEMS",
+      payload: action.payload.projectId,
+    });
   } catch (error) {
     console.log("Error setting Card Text! ", error);
+  }
+}
+function* deleteCard(action) {
+  try {
+    yield axios.delete(`/api/projects/items/${action.payload}`);
+    yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload });
+  } catch (error) {
+    console.log("Error Deleteing card: ", error);
   }
 }
 
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
   yield takeLatest("ADD_CARD", addCard);
-  yield takeLatest("SET_CARD_SETTINGS", setCardText);
+  yield takeLatest("SET_CARD_SETTINGS", setCardSettings);
+  yield takeLatest("DELETE_CARD", deleteCard);
 }
 export default projectItemsSaga;

@@ -50,7 +50,7 @@ export default function ProjectView() {
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         compactType={null}
         layout={projectItems}
-        cols={{ lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }}
+        cols={{ lg: 10, md: 10, sm: 10, xs: 10, xxs: 10 }}
         rowHeight={100}
         width={1200}
         onDragStart={(layout) => setOldLayout(layout)}
