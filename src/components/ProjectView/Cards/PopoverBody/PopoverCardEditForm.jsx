@@ -11,7 +11,6 @@ import {
   PopoverCloseButton,
   PopoverContent,
   PopoverHeader,
-  Text,
   Textarea,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
@@ -30,7 +29,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
     item.card_header || ""
   );
   const [backgroundColor, setBackgroundColor] = useState(
-    item.bg_color || "#000000"
+    item.bg_color || "#FFFFFF"
   );
   const [widthInput, setWidthInput] = useState(item.w);
   const [heightInput, setHeightInput] = useState(item.h);
@@ -40,7 +39,11 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
       payload: {
         cardHeader: cardHeaderInput,
         id: item.i,
-        settings: { ...item.card_settings, text: bodyTextInput, image_url: imageUrlInput },
+        settings: {
+          ...item.card_settings,
+          text: bodyTextInput,
+          image_url: imageUrlInput,
+        },
         backgroundColor,
         projectId,
         h: heightInput,
@@ -84,12 +87,11 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
               <FormLabel htmlFor="imgUrl">Image URL: </FormLabel>
               <Input
                 id="imgUrl"
-                type='url'
+                type="url"
                 value={imageUrlInput}
                 onChange={(e) => setImageUrlInput(e.target.value)}
               />
             </>
-
           )}
           <FormLabel htmlFor="colorSelect">Background Color: </FormLabel>
           <input

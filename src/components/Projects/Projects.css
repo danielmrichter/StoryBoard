@@ -1,0 +1,9 @@
+.newProjectButton{
+    --_viewport-margin: 2.5vmin;
+    position: fixed;
+    z-index: var(999);
+    inset-block: auto var(--_viewport-margin);
+    inset-inline: auto var(--_viewport-margin);
+    margin-bottom: 50vh;
+    margin-right: 5rem;
+}

@@ -7,10 +7,7 @@ import {
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Nav from "../Nav/Nav";
-import Footer from "../Footer/Footer";
-
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-
 import AboutPage from "../AboutPage/AboutPage";
 import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
@@ -50,18 +47,6 @@ function App() {
             <AboutPage />
           </Route>
 
-          {/* For protected routes, the view could show one of several things on the same route.
-            Visiting localhost:5173/user will show the UserPage if the user is logged in.
-            If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
-            Even though it seems like they are different pages, the user is always on localhost:5173/user */}
-          <ProtectedRoute
-            // logged in shows UserPage else shows LoginPage
-            exact
-            path="/user"
-          >
-            <UserPage />
-          </ProtectedRoute>
-
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
@@ -76,8 +61,8 @@ function App() {
           <Route exact path="/login">
             {user.id ? (
               // If the user is already logged in,
-              // redirect to the /user page
-              <Redirect to="/user" />
+              // redirect to the /projects page
+              <Redirect to="/projects" />
             ) : (
               // Otherwise, show the login page
               <LoginPage />
@@ -87,8 +72,8 @@ function App() {
           <Route exact path="/registration">
             {user.id ? (
               // If the user is already logged in,
-              // redirect them to the /user page
-              <Redirect to="/user" />
+              // redirect to the /projects page
+              <Redirect to="/projects" />
             ) : (
               // Otherwise, show the registration page
               <RegisterPage />
@@ -98,28 +83,24 @@ function App() {
           <Route exact path="/home">
             {user.id ? (
               // If the user is already logged in,
-              // redirect them to the /user page
-              <Redirect to="/user" />
+              // redirect to the /projects page
+              <Redirect to="/projects" />
             ) : (
               // Otherwise, show the Landing page
               <LandingPage />
             )}
           </Route>
-
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
             exact
             path="/projects"
           >
             <Projects />
           </ProtectedRoute>
-
           {/* If none of the other routes matched, we will show a 404. */}
           <Route>
             <h1>404</h1>
           </Route>
         </Switch>
-        <Footer />
       </div>
     </Router>
   );

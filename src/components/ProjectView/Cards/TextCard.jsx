@@ -35,10 +35,10 @@ const textCard = forwardRef(function TextCard(
       onTouchEnd={onTouchEnd}
       ref={ref}
       key={item.i}
-      style={{ ...style, backgroundColor: item.bg_color }}
+      style={style}
       data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
     >
-      <Card>
+      <Card bgColor={item.bg_color }>
         {item.card_header && (
           <CardHeader>
             <Text fontSize="lg">{item.card_header}</Text>
