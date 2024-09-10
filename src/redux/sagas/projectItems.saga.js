@@ -44,11 +44,20 @@ function* deleteCard(action) {
     console.log("Error Deleteing card: ", error);
   }
 }
+function* fetchProjectOwner(action) {
+  try {
+    const owner = yield axios.get(`/api/projects/${action.payload}`);
+    yield put({ type: "SET_PROJECT_OWNER", payload: owner.data });
+  } catch (error) {
+    console.log("Error getting the project owner: ", error);
+  }
+}
 
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
   yield takeLatest("ADD_CARD", addCard);
   yield takeLatest("SET_CARD_SETTINGS", setCardSettings);
   yield takeLatest("DELETE_CARD", deleteCard);
+  yield takeLatest("FETCH_PROJECT_OWNER", fetchProjectOwner);
 }
 export default projectItemsSaga;

@@ -7,8 +7,6 @@ import AddCards from "./AddCards/AddCards";
 import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
 import {
   Button,
-  ButtonGroup,
-  Container,
   useDisclosure,
 } from "@chakra-ui/react";
 import { AddIcon, EditIcon } from "@chakra-ui/icons";
@@ -18,9 +16,12 @@ export default function ProjectView() {
   const { projectId } = useParams();
   // This grabs relevent info to the current project.
   const projectItems = useSelector((store) => store.projectItems);
+  const user = useSelector((store) => store.user);
+  const owner = useSelector((store) => store.projectOwner)
 
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECT_ITEMS", payload: projectId });
+    dispatch({ type: "FETCH_PROJECT_OWNER", payload: projectId });
   }, [projectId]);
   // These functions handle data permanence. They will talk to the server to PUT the updated projectItems.
   // There is a bit of error handling here. See, react-grid-layout doesn't wait for this to resolve, it just
@@ -57,6 +58,7 @@ export default function ProjectView() {
         width={1200}
         onDragStart={(layout) => setOldLayout(layout)}
         onDragStop={handleLayoutChange}
+        isDraggable={isEditing}
       >
         {projectItems.map((item) => (
           <ProjectCard
@@ -72,7 +74,12 @@ export default function ProjectView() {
           />
         ))}
       </ResponsiveGridLayout>
-      <div className="floatingActionButtons">
+      {user.id === owner.user_id && <div className="floatingActionButtons">
+        {isEditing && (
+          <Button size="lg" onClick={onOpen} leftIcon={<AddIcon />}>
+            Add New Card
+          </Button>
+        )}
         <Button
           size="lg"
           leftIcon={<EditIcon />}
@@ -80,10 +87,7 @@ export default function ProjectView() {
         >
           Toggle Edit
         </Button>
-        <Button size="lg" onClick={onOpen} leftIcon={<AddIcon />}>
-          Add New Card
-        </Button>
-      </div>
+      </div>}
       <AddCards isOpen={isOpen} onClose={onClose} projectId={projectId} />
     </>
   );

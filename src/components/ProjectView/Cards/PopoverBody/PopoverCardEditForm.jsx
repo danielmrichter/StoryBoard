@@ -33,6 +33,9 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
   );
   const [widthInput, setWidthInput] = useState(item.w);
   const [heightInput, setHeightInput] = useState(item.h);
+  const [titleTextInput, setTitleTextInput] = useState(
+    item.card_settings.text || ""
+  );
   const handlePopoverClose = () => {
     dispatch({
       type: "SET_CARD_SETTINGS",
@@ -63,14 +66,27 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
               onClose();
             }}
           />
-          <FormLabel htmlFor="cardHeader">Header Text:</FormLabel>
-          <Input
-            id="cardHeader"
-            value={cardHeaderInput}
-            onChange={(e) => setCardHeaderInput(e.target.value)}
-            placeholder="Header"
-          />
-
+          {item.card_type !== "title" && (
+            <>
+              <FormLabel htmlFor="cardHeader">Header Text:</FormLabel>
+              <Input
+                id="cardHeader"
+                value={cardHeaderInput}
+                onChange={(e) => setCardHeaderInput(e.target.value)}
+                placeholder="Header"
+              />
+            </>
+          )}
+          {item.card_type === "title" && (
+            <>
+              <FormLabel htmlFor="titleText">Title Text:</FormLabel>
+              <Input
+                id="titleText"
+                value={titleTextInput}
+                onChange={(e) => setTitleTextInput(e.target.value)}
+              />
+            </>
+          )}
           {item.card_type === "text" && (
             <>
               <FormLabel htmlFor="bodyText">Body Text:</FormLabel>

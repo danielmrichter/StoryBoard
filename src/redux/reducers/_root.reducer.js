@@ -3,7 +3,8 @@ import errors from "./errors.reducer";
 import user from "./user.reducer";
 import projectItems from "./projectItems.reducer";
 import projects from "./projects.reducer";
-import isEditing from './isEditing.reducer'
+import isEditing from './isEditing.reducer.js'
+import projectOwner from './projectOwner.reducer.js'
 
 
 // rootReducer is the primary reducer for our entire project
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   user, // will have an id and username if someone is logged in
   projectItems,
   projects,
-  isEditing
+  isEditing,
+  projectOwner
 });
 
 export default rootReducer;
