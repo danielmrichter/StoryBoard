@@ -1,5 +1,8 @@
 .header{
-    margin: 0 0 30px;
+  margin: 0 0 30px;
   background-color: purple;
   overflow: hidden;
+  position: sticky;
+  width: 100vw;
+  z-index: 999;
 }

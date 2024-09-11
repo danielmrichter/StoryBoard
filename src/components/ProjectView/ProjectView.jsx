@@ -5,10 +5,7 @@ import ProjectCard from "./ProjectCard/ProjectCard";
 import axios from "axios";
 import AddCards from "./AddCards/AddCards";
 import { Responsive as ResponsiveGridLayout } from "react-grid-layout";
-import {
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Button, useDisclosure } from "@chakra-ui/react";
 import { AddIcon, EditIcon } from "@chakra-ui/icons";
 import "./ProjectView.css";
 export default function ProjectView() {
@@ -17,12 +14,13 @@ export default function ProjectView() {
   // This grabs relevent info to the current project.
   const projectItems = useSelector((store) => store.projectItems);
   const user = useSelector((store) => store.user);
-  const owner = useSelector((store) => store.projectOwner)
+  const owner = useSelector((store) => store.projectOwner);
 
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECT_ITEMS", payload: projectId });
     dispatch({ type: "FETCH_PROJECT_OWNER", payload: projectId });
   }, [projectId]);
+
   // These functions handle data permanence. They will talk to the server to PUT the updated projectItems.
   // There is a bit of error handling here. See, react-grid-layout doesn't wait for this to resolve, it just
   // mutates the data directly. So, in case of a fail, it'll use a saved state from when the item was
@@ -30,6 +28,7 @@ export default function ProjectView() {
   const [oldLayout, setOldLayout] = useState([]);
   const handleLayoutChange = async (layout) => {
     try {
+      console.log('Changing Layout! ', layout)
       await axios.put("/api/projects/items", { projectId, layout });
       setOldLayout(layout);
     } catch (error) {
@@ -49,15 +48,15 @@ export default function ProjectView() {
   return (
     <>
       <ResponsiveGridLayout
+        width={1200}
         className="layout"
         breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
         compactType={null}
         layout={projectItems}
         cols={{ lg: 10, md: 10, sm: 10, xs: 10, xxs: 10 }}
         rowHeight={100}
-        width={1200}
         onDragStart={(layout) => setOldLayout(layout)}
-        onDragStop={handleLayoutChange}
+        onLayoutChange={handleLayoutChange}
         isDraggable={isEditing}
       >
         {projectItems.map((item) => (
@@ -74,20 +73,22 @@ export default function ProjectView() {
           />
         ))}
       </ResponsiveGridLayout>
-      {user.id === owner.user_id && <div className="floatingActionButtons">
-        {isEditing && (
-          <Button size="lg" onClick={onOpen} leftIcon={<AddIcon />}>
-            Add New Card
+      {user.id === owner.user_id && (
+        <div className="floatingActionButtons">
+          {isEditing && (
+            <Button size="lg" onClick={onOpen} leftIcon={<AddIcon />}>
+              Add New Card
+            </Button>
+          )}
+          <Button
+            size="lg"
+            leftIcon={<EditIcon />}
+            onClick={handleEditButtonClick}
+          >
+            Toggle Edit
           </Button>
-        )}
-        <Button
-          size="lg"
-          leftIcon={<EditIcon />}
-          onClick={handleEditButtonClick}
-        >
-          Toggle Edit
-        </Button>
-      </div>}
+        </div>
+      )}
       <AddCards isOpen={isOpen} onClose={onClose} projectId={projectId} />
     </>
   );

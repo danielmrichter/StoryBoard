@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import NavBar from "../NavBar/NavBar";
-import { useRef } from "react";
 
 export default function Header() {
   // These two are for controlling the popout nav menu (a ChakraUI Drawer).

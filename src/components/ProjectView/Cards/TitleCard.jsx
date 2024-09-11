@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PopoverCardEditForm from "./PopoverBody/PopoverCardEditForm";
+import PopoverCardEditForm from "./PopoverCardEditForm/PopoverCardEditForm";
 import DeleteModal from "./DeleteModal/DeleteModal";
 
 const titleCard = forwardRef(function TitleCard(
@@ -15,12 +15,15 @@ const titleCard = forwardRef(function TitleCard(
   ref
 ) {
   const dispatch = useDispatch();
+
+  // Delete Modal Stuff
   const handleDelete = () => {
     dispatch({ type: "DELETE_CARD", payload: item.i });
     setIsDeleteModalOpen(false);
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  // Edit Form Stuff
   const isEditing = useSelector((store) => store.isEditing);
   const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -29,6 +32,7 @@ const titleCard = forwardRef(function TitleCard(
       className={className}
       onMouseDown={isOpen ? undefined : onMouseDown}
       onMouseUp={isOpen ? undefined : onMouseUp}
+      onTouchEnd={onTouchEnd}
       ref={ref}
       key={item.i}
       style={style}
