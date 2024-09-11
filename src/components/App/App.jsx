@@ -6,11 +6,9 @@ import {
   Switch,
 } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Nav from "../Nav/Nav";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
 import InfoPage from "../InfoPage/InfoPage";
-import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginComponents/LoginPage/LoginPage";
 import RegisterPage from "../LoginComponents/RegisterPage/RegisterPage";
 import "./App.css";
@@ -19,7 +17,6 @@ import ProjectView from "../ProjectView/ProjectView";
 import '/node_modules/react-grid-layout/css/styles.css'
 import '/node_modules/react-resizable/css/styles.css'
 import Header from "../Header/Header";
-import { useDisclosure } from "@chakra-ui/react";
 
 
 function App() {
