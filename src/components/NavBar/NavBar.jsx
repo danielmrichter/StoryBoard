@@ -1,5 +1,10 @@
 import { Link as ReactRouterLink } from "react-router-dom";
-import { Link as ChakraLink, Stack } from "@chakra-ui/react";
+import {
+AbsoluteCenter,
+  Link as ChakraLink,
+  DrawerFooter,
+  Stack,
+} from "@chakra-ui/react";
 import {
   Drawer,
   DrawerBody,
@@ -24,49 +29,55 @@ export default function NavBar({ isOpen, onClose }) {
         <DrawerCloseButton />
         <DrawerHeader>Menu</DrawerHeader>
         <DrawerBody>
-          <Stack>
-            <div className="stackElement">
-              <ChakraLink
-                as={ReactRouterLink}
-                className={pathname === "/about" ? "active" : "stackElement"}
-                to="/about"
-                onClick={onClose}
-              >
-                About
-              </ChakraLink>
-            </div>
-            {!user.id && (
-              // If there's no user, show login/registration links
+          <AbsoluteCenter>
+            <Stack alignItems='center' justifyContent='space-around'>
               <div>
                 <ChakraLink
                   as={ReactRouterLink}
-                  className={pathname === "/login" ? "active" : "stackElement"}
-                  to="/login"
+                  className={pathname === "/about" ? "active" : "stackElement"}
+                  to="/about"
                   onClick={onClose}
                 >
-                  Login / Register
+                  About
                 </ChakraLink>
               </div>
-            )}
-            {/* If a user is logged in, show these links */}
-            {user.id && (
-              <div>
-                <ChakraLink
-                  as={ReactRouterLink}
-                  className={
-                    pathname === "/projects" ? "active" : "stackElement"
-                  }
-                  to="/projects"
-                  onClick={onClose}
-                >
-                  Projects
-                </ChakraLink>
-                <Divider />
-                <LogOutButton className="navBarLogout" />
-              </div>
-            )}
-          </Stack>
+              {!user.id && (
+                // If there's no user, show login/registration links
+                <div>
+                  <ChakraLink
+                    as={ReactRouterLink}
+                    className={
+                      pathname === "/login" ? "active" : "stackElement"
+                    }
+                    to="/login"
+                    onClick={onClose}
+                  >
+                    Login / Register
+                  </ChakraLink>
+                </div>
+              )}
+              {/* If a user is logged in, show these links */}
+              {user.id && (
+                <div>
+                  <ChakraLink
+                    as={ReactRouterLink}
+                    className={
+                      pathname === "/projects" ? "active" : "stackElement"
+                    }
+                    to="/projects"
+                    onClick={onClose}
+                  >
+                    Projects
+                  </ChakraLink>
+                  <Divider />
+                </div>
+              )}
+            </Stack>
+          </AbsoluteCenter>
         </DrawerBody>
+        <DrawerFooter>
+          {user.id && <LogOutButton />}
+        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );

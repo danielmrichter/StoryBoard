@@ -5,3 +5,8 @@
 .stackElement{
     padding: 5px
 }
+.navBarLogout {
+    
+    background-color: purple;
+    justify-self: flex-end;
+}
