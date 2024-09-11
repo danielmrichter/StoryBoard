@@ -1,3 +1,4 @@
+import { FormControl, FormLabel, Heading, Input, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,41 +21,41 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <form className="formPanel" onSubmit={registerUser}>
-      <h2>Register User</h2>
+    <FormControl className="formPanel" onSubmit={registerUser}>
+      <Heading className='loginHeader' as='h2'>Register User</Heading>
       {errors.registrationMessage && (
-        <h3 className="alert" role="alert">
+        <Heading as='h4' className="alert" role="alert">
           {errors.registrationMessage}
-        </h3>
+        </Heading>
       )}
-      <div>
-        <label htmlFor="username">
+      <div >
+        <FormLabel htmlFor="username">
           Username:
-          <input
+          <Input
             type="text"
-            name="username"
+            id="username"
             value={username}
             required
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
+        </FormLabel>
       </div>
       <div>
-        <label htmlFor="password">
+        <FormLabel htmlFor="password">
           Password:
-          <input
+          <Input
             type="password"
-            name="password"
+            id="password"
             value={password}
             required
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
+        </FormLabel>
       </div>
       <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
+        <Input className="btn" type="submit" name="submit" value="Register" />
       </div>
-    </form>
+    </FormControl>
   );
 }
 
