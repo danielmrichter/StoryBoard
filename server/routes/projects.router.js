@@ -46,16 +46,16 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
   const sqlValues = [project.projectName, project.user.id];
   try {
     const projectInsert = await pool.query(sqlText, sqlValues);
-    const newProjectId = projectInsert.rows[0].id
+    const newProjectId = projectInsert.rows[0].id;
     // wip
+    const title = [{ text: project.projectName }];
     const titleCardSqlText = `
       INSERT INTO "added_cards"
-         ("project_id", "card_type", "card_settings")
+         ("project_id", "x" ,"w","card_type", "card_settings")
           VALUES
-          ('${newProjectId}', 'title', '{"text": "Title Goes Here"}')
-          ('${newProjectId}', );`;
+          ('${newProjectId}', 4, 3 ,'title', $1);`;
 
-    // await pool.query(titleCardSqlText);
+    await pool.query(titleCardSqlText, title);
     res.sendStatus(201);
   } catch (error) {
     console.log("Error adding a new project: ", error);

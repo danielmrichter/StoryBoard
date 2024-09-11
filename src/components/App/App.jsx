@@ -9,7 +9,6 @@ import { useDispatch, useSelector } from "react-redux";
 import Nav from "../Nav/Nav";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import AboutPage from "../AboutPage/AboutPage";
-import UserPage from "../UserPage/UserPage";
 import InfoPage from "../InfoPage/InfoPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginComponents/LoginPage/LoginPage";
@@ -19,6 +18,8 @@ import Projects from "../Projects/Projects";
 import ProjectView from "../ProjectView/ProjectView";
 import '/node_modules/react-grid-layout/css/styles.css'
 import '/node_modules/react-resizable/css/styles.css'
+import Header from "../Header/Header";
+import { useDisclosure } from "@chakra-ui/react";
 
 
 function App() {
@@ -33,7 +34,8 @@ function App() {
   return (
     <Router>
       <div>
-        <Nav />
+        {/* <Nav /> */}
+        <Header />
         <Switch>
           {/* Visiting localhost:5173 will redirect to localhost:5173/home */}
           <Redirect exact from="/" to="/home" />
@@ -87,7 +89,7 @@ function App() {
               <Redirect to="/projects" />
             ) : (
               // Otherwise, show the Landing page
-              <LandingPage />
+              <Redirect to='/login' />
             )}
           </Route>
           <ProtectedRoute
