@@ -26,7 +26,7 @@ function LoginForm() {
   }; // end login
 
   return (
-    <FormControl className="formPanel" onSubmit={login}>
+    <form className="formPanel" onSubmit={login}>
       <Heading className='loginHeader' as='h2'>Login</Heading>
       {errors.registrationMessage && (
         <Heading as='h4' className="alert" role="alert">
@@ -60,7 +60,7 @@ function LoginForm() {
       <div>
         <Input className="btn" type="submit" name="submit" value="Log In" />
       </div>
-    </FormControl>
+    </form>
   );
 }
 
