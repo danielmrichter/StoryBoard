@@ -8,11 +8,10 @@ import {
   Heading,
   IconButton,
   Image,
-  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
-import PopoverCardEditForm from "./PopoverBody/PopoverCardEditForm";
+import PopoverCardEditForm from "./PopoverCardEditForm/PopoverCardEditForm";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteModal from "./DeleteModal/DeleteModal";
 

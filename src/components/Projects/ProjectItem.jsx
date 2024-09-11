@@ -24,17 +24,25 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 export default function ProjectItem({ project }) {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  // Sends the user to the relevent project view when an item is clicked.
   const handleProjectView = (id) => {
     history.push(`/projectview/${id}`);
   };
+
+  // Used in editing project names.
   const [projectName, setProjectName] = useState("");
+
+  // Dispatches when the delete button is clicked.
   const handleDelete = (id) => {
     dispatch({ type: "DELETE_PROJECT", payload: id });
   };
-  const initialFocusRef = useRef();
+  // Sets the projects name for the edit form.
   useEffect(() => {
     setProjectName(project.project_name);
   }, []);
+
+  // Dispatches to Redux-Saga to edit project details.
   const handleSave = (e) => {
     e.preventDefault();
     dispatch({
@@ -42,7 +50,13 @@ export default function ProjectItem({ project }) {
       payload: { project: project.id, projectName },
     });
   };
+
+  // This is for the Popover to edit a project details.
+  // The Ref is to set focus in the popover.
+  const initialFocusRef = useRef();
   const { onOpen, onClose, isOpen } = useDisclosure();
+
+
   return (
     <Card
       minWidth="50vw"

@@ -27,7 +27,7 @@ export default function NavBar({ isOpen, onClose }) {
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />
-        <DrawerHeader>Menu</DrawerHeader>
+        <DrawerHeader>Navigation</DrawerHeader>
         <DrawerBody>
           <AbsoluteCenter>
             <Stack alignItems='center' justifyContent='space-around'>

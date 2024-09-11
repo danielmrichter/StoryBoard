@@ -7,7 +7,7 @@ import {
   Container,
   Heading,
   IconButton,
-  Text,
+  Image,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
@@ -15,11 +15,14 @@ import PopoverCardEditForm from "./PopoverCardEditForm/PopoverCardEditForm";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteModal from "./DeleteModal/DeleteModal";
 
-const textCard = forwardRef(function TextCard(
+const TMDBCard = forwardRef(function TMDBCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
   ref
 ) {
   const dispatch = useDispatch();
+  // Edit Form Stuff
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
   // Delete Modal Stuff
   const handleDelete = () => {
     dispatch({ type: "DELETE_CARD", payload: item.i });
@@ -27,11 +30,7 @@ const textCard = forwardRef(function TextCard(
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  // Edit Form Stuff
-  const { isOpen, onToggle, onClose } = useDisclosure();
-
   const isEditing = useSelector((store) => store.isEditing);
-
   return (
     <div
       className={className}
@@ -54,7 +53,9 @@ const textCard = forwardRef(function TextCard(
           </CardHeader>
         )}
         <CardBody>
-          <Text whiteSpace='pre-wrap'>{item.card_settings.text}</Text>
+          {item.card_settings.img_url && (
+            <Image src={item.card_settings.img_url} />
+          )}
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal
             isOpen={isDeleteModalOpen}
@@ -64,24 +65,26 @@ const textCard = forwardRef(function TextCard(
             }}
           />
         </CardBody>
-        {isEditing && <CardFooter>
-          <IconButton
-            zIndex={1}
-            onClick={onToggle}
-            size="sm"
-            icon={<EditIcon />}
-            mr={2}
-          />
-          <IconButton
-            size="sm"
-            icon={<DeleteIcon />}
-            zIndex={1}
-            onClick={() => setIsDeleteModalOpen(true)}
-          />
-        </CardFooter>}
+        {isEditing && (
+          <CardFooter>
+            <IconButton
+              zIndex={1}
+              onClick={onToggle}
+              size="sm"
+              icon={<EditIcon />}
+              mr={2}
+            />
+            <IconButton
+              size="sm"
+              icon={<DeleteIcon />}
+              zIndex={1}
+              onClick={() => setIsDeleteModalOpen(true)}
+            />
+          </CardFooter>
+        )}
       </Card>
     </div>
   );
 });
 
-export default textCard;
+export default TMDBCard;
