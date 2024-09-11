@@ -12,7 +12,10 @@ export default function Projects() {
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECTS" });
   }, []);
+  // Grabs the projects that we just fetched here 👆
   const projects = useSelector((store) => store.projects);
+
+  // Used to control the Drawer to add a new Project.
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
