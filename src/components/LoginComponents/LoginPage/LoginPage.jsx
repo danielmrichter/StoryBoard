@@ -1,13 +1,13 @@
 import React from 'react';
 import LoginForm from '../LoginForm';
 import { useHistory } from 'react-router-dom';
-import { Link } from '@chakra-ui/react';
+import { AbsoluteCenter, Link } from '@chakra-ui/react';
 
 function LoginPage() {
   const history = useHistory();
 
   return (
-    <div>
+    <AbsoluteCenter>
       <LoginForm />
 
       <center style={{marginTop: 10}}>
@@ -21,7 +21,7 @@ function LoginPage() {
           Switch To Register
         </Link>
       </center>
-    </div>
+    </AbsoluteCenter>
   );
 }
 

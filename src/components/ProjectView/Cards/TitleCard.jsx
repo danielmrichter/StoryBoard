@@ -9,17 +9,20 @@ import { forwardRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import PopoverCardEditForm from "./PopoverCardEditForm/PopoverCardEditForm";
 import DeleteModal from "./DeleteModal/DeleteModal";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 const titleCard = forwardRef(function TitleCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
   ref
 ) {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
 
   // Delete Modal Stuff
   const handleDelete = () => {
-    dispatch({ type: "DELETE_CARD", payload: item.i });
+    dispatch({ type: "DELETE_CARD", payload: {id:item.i, projectId} });
     setIsDeleteModalOpen(false);
+    
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -39,7 +42,7 @@ const titleCard = forwardRef(function TitleCard(
       data-grid={{ w: item.w, i: item.i, x: item.x, y: item.y, h: item.h }}
     >
       <Container backgroundColor={item.bg_color} centerContent>
-        <Heading>{item.card_settings.text}</Heading>
+        <Heading>{item.card_settings.titleText && item.card_settings.titleText}</Heading>
         <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
         <DeleteModal
           isOpen={isDeleteModalOpen}

@@ -3,7 +3,9 @@ import {
 AbsoluteCenter,
   Link as ChakraLink,
   DrawerFooter,
+  Spacer,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import {
   Drawer,
@@ -76,6 +78,8 @@ export default function NavBar({ isOpen, onClose }) {
           </AbsoluteCenter>
         </DrawerBody>
         <DrawerFooter>
+          {user.username && <Text>Hi, {user.username}</Text>}
+          <Spacer></Spacer>
           {user.id && <LogOutButton />}
         </DrawerFooter>
       </DrawerContent>

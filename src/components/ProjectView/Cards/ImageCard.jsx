@@ -14,6 +14,7 @@ import { forwardRef, useState } from "react";
 import PopoverCardEditForm from "./PopoverCardEditForm/PopoverCardEditForm";
 import { useDispatch, useSelector } from "react-redux";
 import DeleteModal from "./DeleteModal/DeleteModal";
+import { useParams } from "react-router-dom/cjs/react-router-dom";
 
 const textCard = forwardRef(function TextCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
@@ -22,10 +23,11 @@ const textCard = forwardRef(function TextCard(
   const dispatch = useDispatch();
   // Edit Form Stuff
   const { isOpen, onToggle, onClose } = useDisclosure();
+  const { projectId } = useParams();
 
   // Delete Modal Stuff
   const handleDelete = () => {
-    dispatch({ type: "DELETE_CARD", payload: item.i });
+    dispatch({ type: "DELETE_CARD", payload: {id: item.i, projectId} });
     setIsDeleteModalOpen(false)
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);

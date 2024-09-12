@@ -1,13 +1,41 @@
-import { useEffect } from "react";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Center,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 
 export default function TMDBResultItem({ result }) {
-  useEffect(() => {
-    console.log("TMDB Result item: ", result);
-  }, []);
-
+  const profilePathImageUrl = "http://image.tmdb.org/t/p/w185";
   return (
-    <div>
-      <p>{result.id}</p>
-    </div>
+    <Card>
+      <CardHeader>
+        <Center>
+          {result.name && (
+            <Heading size="sm" as="h6">
+              {result.name}
+            </Heading>
+          )}
+          {result.title && (
+            <Heading size="sm" as="h6">
+              {result.title}
+            </Heading>
+          )}
+        </Center>
+      </CardHeader>
+      <CardBody>
+        <Center>
+          {result.profile_path && (
+            <Image src={profilePathImageUrl + result.profile_path} />
+          )}
+          {result.poster_path && (
+            <Image src={profilePathImageUrl + result.poster_path} />
+          )}
+        </Center>
+      </CardBody>
+    </Card>
   );
 }

@@ -35,7 +35,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
   const [widthInput, setWidthInput] = useState(item.w);
   const [heightInput, setHeightInput] = useState(item.h);
   const [titleTextInput, setTitleTextInput] = useState(
-    item.card_settings.text || ""
+    item.card_settings.titleText || ""
   );
   const handlePopoverClose = () => {
     dispatch({
@@ -47,6 +47,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
           ...item.card_settings,
           text: bodyTextInput,
           image_url: imageUrlInput,
+          titleText: titleTextInput
         },
         backgroundColor,
         projectId,

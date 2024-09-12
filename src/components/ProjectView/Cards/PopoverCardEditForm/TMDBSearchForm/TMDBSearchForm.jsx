@@ -17,6 +17,7 @@ import {
   PopoverHeader,
   PopoverTrigger,
   Spinner,
+  Stack,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -52,13 +53,15 @@ export default function TMDBSearchForm() {
           <DrawerHeader>Search Results</DrawerHeader>
           <DrawerCloseButton />
           <DrawerBody>
-            {tmdbSearchResults[0] ? (
-              <Spinner />
-            ) : (
-              tmdbSearchResults.map((result) => {
-                return <TMDBResultItem result={result} />;
-              })
-            )}
+            <Stack>
+              {tmdbSearchResults.length === 0 ? (
+                <Spinner />
+              ) : (
+                tmdbSearchResults.map((result) => {
+                  return <TMDBResultItem result={result} />;
+                })
+              )}
+            </Stack>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

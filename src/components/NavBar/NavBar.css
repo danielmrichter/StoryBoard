@@ -1,12 +1,11 @@
 .active{
-    background-color: lavender;
+    background-color: lightcoral;
     padding: 5px;
 }
 .stackElement{
     padding: 5px
 }
 .navBarLogout {
-    
     background-color: purple;
     justify-self: flex-end;
 }

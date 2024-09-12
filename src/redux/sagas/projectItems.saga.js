@@ -38,8 +38,8 @@ function* setCardSettings(action) {
 }
 function* deleteCard(action) {
   try {
-    yield axios.delete(`/api/projects/items/${action.payload}`);
-    yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload });
+    yield axios.delete(`/api/projects/items/${action.payload.id}`);
+    yield put({ type: "FETCH_PROJECT_ITEMS", payload: action.payload.projectId });
   } catch (error) {
     console.log("Error Deleteing card: ", error);
   }
