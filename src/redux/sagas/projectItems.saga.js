@@ -52,6 +52,20 @@ function* fetchProjectOwner(action) {
     console.log("Error getting the project owner: ", error);
   }
 }
+function* searchTMDB(action) {
+  try {
+    const res = yield axios({
+      method: "GET",
+      url: "/api/thirdparty/tmdb",
+      params: {
+        q: action.payload,
+      },
+    });
+    yield put({ type: "SET_TMDB_SEARCH_ITEMS", payload: res.data });
+  } catch (error) {
+    console.log("Error searching TMDB: ", error);
+  }
+}
 
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
@@ -59,5 +73,6 @@ function* projectItemsSaga() {
   yield takeLatest("SET_CARD_SETTINGS", setCardSettings);
   yield takeLatest("DELETE_CARD", deleteCard);
   yield takeLatest("FETCH_PROJECT_OWNER", fetchProjectOwner);
+  yield takeLatest("SEARCH_TMDB", searchTMDB);
 }
 export default projectItemsSaga;

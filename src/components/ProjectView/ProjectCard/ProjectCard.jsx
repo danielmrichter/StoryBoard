@@ -2,6 +2,7 @@ import { forwardRef } from "react";
 import TextCard from "../Cards/TextCard";
 import ImageCard from "../Cards/ImageCard";
 import TitleCard from "../Cards/TitleCard";
+import TMDBCard from "../Cards/TMDBCard";
 
 const projectCard = forwardRef(function ProjectCard(
   { item, style, className, onMouseDown, onMouseUp, onTouchEnd },
@@ -37,6 +38,19 @@ const projectCard = forwardRef(function ProjectCard(
     case "title":
       return (
         <TitleCard
+          style={style}
+          className={className}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onTouchEnd={onTouchEnd}
+          ref={ref}
+          key={item.i}
+          item={item}
+        />
+      );
+    case "tmdb":
+      return (
+        <TMDBCard
           style={style}
           className={className}
           onMouseDown={onMouseDown}

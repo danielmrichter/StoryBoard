@@ -44,6 +44,14 @@ export default function AddCards({ isOpen, onClose, projectId }) {
         >
           Title
         </Button>
+        <Button
+          onClick={() => {
+            handleClick("tmdb");
+            onClose();
+          }}
+        >
+          TMDB Search
+        </Button>
       </DrawerContent>
     </Drawer>
   );

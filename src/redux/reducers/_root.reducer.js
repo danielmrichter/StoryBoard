@@ -5,6 +5,7 @@ import projectItems from "./projectItems.reducer";
 import projects from "./projects.reducer";
 import isEditing from './isEditing.reducer.js'
 import projectOwner from './projectOwner.reducer.js'
+import tmdbSearchResults from './tmdbSearchResults.reducer.js'
 
 
 // rootReducer is the primary reducer for our entire project
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   projectItems,
   projects,
   isEditing,
-  projectOwner
+  projectOwner,
+  tmdbSearchResults
 });
 
 export default rootReducer;
