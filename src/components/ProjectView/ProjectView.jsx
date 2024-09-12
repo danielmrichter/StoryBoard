@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import ProjectCard from "./ProjectCard/ProjectCard";
 import axios from "axios";
 import AddCards from "./AddCards/AddCards";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import { Responsive as ResponsiveGridLayout} from "react-grid-layout";
 import { Button, useDisclosure } from "@chakra-ui/react";
 import { AddIcon, EditIcon } from "@chakra-ui/icons";
 import "./ProjectView.css";
@@ -19,7 +19,7 @@ export default function ProjectView() {
   const user = useSelector((store) => store.user);
   const owner = useSelector((store) => store.projectOwner);
 
-  const ResponsiveGridLayout = WidthProvider(Responsive)
+  // const ResponsiveGridLayout = WidthProvider(Responsive)
 
   useEffect(() => {
     dispatch({ type: "FETCH_PROJECT_ITEMS", payload: projectId });
@@ -32,7 +32,6 @@ export default function ProjectView() {
   // first clicked, and then reset it to that.
   let oldLayout
   const handleLayoutChange = async (layout) => {
-    console.log('hi')
     try {
       console.log('Changing Layout! ', layout)
       await axios.put("/api/projects/items", { projectId, layout });
@@ -56,12 +55,13 @@ export default function ProjectView() {
     <>
       <ResponsiveGridLayout
         className="layout"
+        width={1200}
         compactType={null}
         layout={projectItems}
         cols={{ lg: 10, md: 10, sm: 10, xs: 10, xxs: 10 }}
         rowHeight={100}
         onDragStart={(layout) => oldLayout= layout}
-        onDragEnd={handleLayoutChange}
+        onDragStop={handleLayoutChange}
         isDraggable={isEditing}
       >
         {projectItems.map((item) => (

@@ -62,7 +62,7 @@ export default function NavBar({ isOpen, onClose }) {
                   <ChakraLink
                     as={ReactRouterLink}
                     className={
-                      pathname === "/projects" ? "active" : "stackElement"
+                      pathname === "/projects" || pathname.includes('projectview') ? "active" : "stackElement"
                     }
                     to="/projects"
                     onClick={onClose}

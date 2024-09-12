@@ -28,11 +28,21 @@ export default function AddCards({ isOpen, onClose, projectId }) {
         >
           Text
         </Button>
-        <Button onClick={() => {
+        <Button
+          onClick={() => {
             handleClick("image");
             onClose();
-          }}>
-            Image
+          }}
+        >
+          Image
+        </Button>
+        <Button
+          onClick={() => {
+            handleClick("title");
+            onClose();
+          }}
+        >
+          Title
         </Button>
       </DrawerContent>
     </Drawer>
