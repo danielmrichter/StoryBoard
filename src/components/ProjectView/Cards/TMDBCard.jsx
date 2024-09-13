@@ -32,6 +32,12 @@ const TMDBCard = forwardRef(function TMDBCard(
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  // External URL Stuff
+  const handleRedirectClick = () => {
+    const url = `https://www.themoviedb.org/${item.card_settings.media_type}/${item.card_settings.tmdb_id}`
+    !isEditing && window.open(url , '_blank').focus()
+  }
+
   const isEditing = useSelector((store) => store.isEditing);
   return (
     <div
@@ -50,13 +56,13 @@ const TMDBCard = forwardRef(function TMDBCard(
             <Container centerContent>
               <Heading as="h5" size="md">
                 {item.card_header}
-              </Heading>
+              </Heading>  
             </Container>
           </CardHeader>
         )}
-        <CardBody>
-          {item.card_settings.img_url && (
-            <Image src={item.card_settings.img_url} />
+        <CardBody onClick={handleRedirectClick}>
+          {item.card_settings.tmdb_url && (
+            <Image src={item.card_settings.tmdb_url} />
           )}
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal

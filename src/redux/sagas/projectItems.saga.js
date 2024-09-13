@@ -67,6 +67,7 @@ function* searchTMDB(action) {
   }
 }
 
+
 function* projectItemsSaga() {
   yield takeLatest("FETCH_PROJECT_ITEMS", fetchProjectItems);
   yield takeLatest("ADD_CARD", addCard);

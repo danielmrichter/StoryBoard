@@ -133,6 +133,7 @@ router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
   const itemHeader = req.body.cardHeader;
   const itemHeight = req.body.h;
   const itemWidth = req.body.w;
+  console.log("Req.body is: ", req.body);
   const sqlText = `
   UPDATE "added_cards"
     SET "card_settings" = $2,
@@ -140,7 +141,6 @@ router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
     "card_header" = $4,
     "h" = $5,
     "w" = $6
-
     WHERE "id" = $1;
     `;
   pool

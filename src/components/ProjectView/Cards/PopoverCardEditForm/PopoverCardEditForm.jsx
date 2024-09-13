@@ -79,7 +79,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
           </>
         )}
         {item.card_type === 'tmdb' && (
-          <TMDBSearchForm />
+          <TMDBSearchForm projectId={projectId} item={item} />
         )}
         {item.card_type === "title" && (
           <>

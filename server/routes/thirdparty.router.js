@@ -17,7 +17,7 @@ router.get("/tmdb", rejectUnauthenticated, (req, res) => {
       `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchRequest}`
     )
     .then((TMDBRes) => {
-        console.log('Got something back from TMDB: ', TMDBRes.data)
+        // console.log('Got something back from TMDB: ', TMDBRes.data)
         res.send(TMDBRes.data.results)})
     .catch((err) => {
       console.log("Error querying TMDB: ", err);

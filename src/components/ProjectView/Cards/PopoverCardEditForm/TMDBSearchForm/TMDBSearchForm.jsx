@@ -24,7 +24,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TMDBResultItem from "./TMDBResultItem/TMDBResultItem";
 
-export default function TMDBSearchForm() {
+export default function TMDBSearchForm({ item, projectId }) {
   const dispatch = useDispatch();
   const [searchText, setSearchText] = useState("");
   const handleSearch = (e) => {
@@ -34,9 +34,12 @@ export default function TMDBSearchForm() {
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const tmdbSearchResults = useSelector((store) => store.tmdbSearchResults);
-  useEffect(() => {
-    console.log("tmdbSearchResults is: ", tmdbSearchResults);
-  }, [tmdbSearchResults]);
+
+  const onCloseFn = () => {
+    setSearchText("");
+    onClose();
+  };
+
   return (
     <>
       <FormLabel htmlFor="">Search TMDB's Api: </FormLabel>
@@ -58,7 +61,14 @@ export default function TMDBSearchForm() {
                 <Spinner />
               ) : (
                 tmdbSearchResults.map((result) => {
-                  return <TMDBResultItem result={result} />;
+                  return (
+                    <TMDBResultItem
+                      projectId={projectId}
+                      item={item}
+                      onCloseFn={onCloseFn}
+                      result={result}
+                    />
+                  );
                 })
               )}
             </Stack>

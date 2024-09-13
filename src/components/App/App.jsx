@@ -30,7 +30,7 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className="mainBody">
         {/* <Nav /> */}
         <Header />
         <Switch>
