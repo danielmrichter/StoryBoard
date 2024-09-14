@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Button,
   FormLabel,
   Input,
   NumberDecrementStepper,
@@ -10,21 +11,24 @@ import {
   Popover,
   PopoverCloseButton,
   PopoverContent,
+  PopoverFooter,
   PopoverHeader,
   Textarea,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom/cjs/react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TMDBSearchForm from "./TMDBSearchForm/TMDBSearchForm";
+import ImageForm from "./ImageForm/ImageForm";
 
 export default function PopoverCardEditForm({ onClose, isOpen, item }) {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  const isUsingImageUrl = useSelector((store) => store.isUsingImageUrl);
+  const imageUrlInput = useSelector((store) => store.imageUrlInput);
+
+  const [imageFileUploadInput, setImageFileUploadInput] = useState(null);
   const [bodyTextInput, setBodyTextInput] = useState(
     item.card_settings.text || ""
-  );
-  const [imageUrlInput, setImageUrlInput] = useState(
-    item.card_settings.img_url || ""
   );
   const [cardHeaderInput, setCardHeaderInput] = useState(
     item.card_header || ""
@@ -38,27 +42,64 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
     item.card_settings.titleText || ""
   );
   const handlePopoverClose = () => {
-    dispatch({
-      type: "SET_CARD_SETTINGS",
-      payload: {
-        cardHeader: cardHeaderInput,
-        id: item.i,
-        settings: {
-          ...item.card_settings,
-          text: bodyTextInput,
-          image_url: imageUrlInput,
-          titleText: titleTextInput
-        },
-        backgroundColor,
-        projectId,
-        h: heightInput,
-        w: widthInput,
-      },
-    });
+    item.card_type !== "image"
+      ? dispatch({
+          type: "SET_CARD_SETTINGS",
+          payload: {
+            cardHeader: cardHeaderInput,
+            id: item.i,
+            settings: {
+              ...item.card_settings,
+              text: bodyTextInput,
+              titleText: titleTextInput,
+            },
+            backgroundColor,
+            projectId,
+            h: heightInput,
+            w: widthInput,
+          },
+        })
+      : isUsingImageUrl
+      ? dispatch({
+          type: "SET_CARD_SETTINGS",
+          payload: {
+            cardHeader: cardHeaderInput,
+            id: item.i,
+            settings: {
+              ...item.card_settings,
+              text: bodyTextInput,
+              img_url: imageUrlInput,
+            },
+            backgroundColor,
+            projectId,
+            h: heightInput,
+            w: widthInput,
+          },
+        })
+      : dispatch({
+          type: "SET_IMAGE_SETTINGS_WITH_UPLOAD",
+          payload: {
+            cardHeader: cardHeaderInput,
+            id: item.i,
+            settings: {
+              ...item.card_settings,
+            },
+            backgroundColor,
+            projectId,
+            h: heightInput,
+            w: widthInput,
+            file: imageFileUploadInput,
+          },
+        });
   };
 
   return (
-    <Popover zIndex={999} isOpen={isOpen} onClose={handlePopoverClose} closeOnBlur={true}>
+    <Popover
+      zIndex={99999999}
+      isOpen={isOpen}
+      onClose={handlePopoverClose}
+      closeOnBlur={true}
+    >
       <PopoverContent>
         <PopoverHeader>Edit Contents</PopoverHeader>
         <PopoverCloseButton
@@ -78,7 +119,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
             />
           </>
         )}
-        {item.card_type === 'tmdb' && (
+        {item.card_type === "tmdb" && (
           <TMDBSearchForm projectId={projectId} item={item} />
         )}
         {item.card_type === "title" && (
@@ -104,13 +145,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
 
         {item.card_type === "image" && (
           <>
-            <FormLabel htmlFor="imgUrl">Image URL: </FormLabel>
-            <Input
-              id="imgUrl"
-              type="url"
-              value={imageUrlInput}
-              onChange={(e) => setImageUrlInput(e.target.value)}
-            />
+            <ImageForm setImageFileUploadInput={setImageFileUploadInput} />
           </>
         )}
         <FormLabel htmlFor="colorSelect">Background Color: </FormLabel>
@@ -150,6 +185,16 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
             <NumberDecrementStepper />
           </NumberInputStepper>
         </NumberInput>
+        <PopoverFooter>
+          <Button
+            onClick={() => {
+              handlePopoverClose();
+              onClose();
+            }}
+          >
+            Save And Close
+          </Button>
+        </PopoverFooter>
       </PopoverContent>
     </Popover>
   );

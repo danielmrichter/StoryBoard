@@ -66,6 +66,26 @@ function* searchTMDB(action) {
     console.log("Error searching TMDB: ", error);
   }
 }
+function* postImageWithUpload(action) {
+  const file = action.payload.file
+  try {
+      const data = new FormData();
+      data.append('file', file);
+      data.append('cardHeader', action.payload.cardHeader)
+      data.append('settings', action.payload.settings)
+      data.append('backgroundColor', action.payload.backgroundColor)
+      data.append('h', action.payload.h)
+      data.append('w', action.payload.w)
+      data.append('id', action.payload.id)
+      console.log('This is data:', data);
+      yield axios.put("/api/thirdparty/upload", data);
+      yield put({
+        type: "FETCH_PROJECT_ITEMS",
+        payload: action.payload.projectId,
+      });
+} catch(error) {
+  console.log('error uploading image: ', error)
+}}
 
 
 function* projectItemsSaga() {
@@ -75,5 +95,6 @@ function* projectItemsSaga() {
   yield takeLatest("DELETE_CARD", deleteCard);
   yield takeLatest("FETCH_PROJECT_OWNER", fetchProjectOwner);
   yield takeLatest("SEARCH_TMDB", searchTMDB);
+  yield takeLatest("SET_IMAGE_SETTINGS_WITH_UPLOAD", postImageWithUpload)
 }
 export default projectItemsSaga;
