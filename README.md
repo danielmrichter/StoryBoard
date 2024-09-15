@@ -27,9 +27,9 @@ This was a complicated project to approach.
 
 ### Prerequisites
 
-Node (Min. Version 18)
-An AWS S3 Account, and bucket configured to accept ACLs.
-A TMDB API Key
+Node (Min. Version 18),
+An AWS S3 Account, and bucket configured to accept ACLs,
+A [TMDB API Key](https://developer.themoviedb.org/docs/getting-started),
 PostGreSQL
 
 ### Installation
@@ -63,3 +63,4 @@ Given the opportunity to revisit these projects, I have a few features I'd like 
 1. The ability to upload project files and finished files for projects. The complicated part is figuring out how the user experience would work for this, so I'm not 100% sure.
 2. The ability to toggle visibilty for a project. When your project isn't done, a user can change if others accounts are allowed to view it.
 3. Change the workflow to instead have a user edit an in progress view. So, instead of them directly editing the public/finished side, they'll instead be creating a to-be-published version of their project.
+
