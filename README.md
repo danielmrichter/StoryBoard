@@ -10,13 +10,13 @@ This was a solo project built for [Prime Digital Acadamy](https://www.primeacade
 
 ## Technologies Used
 
-React
+React  
 Node.JS  
 Express  
 Redux  
 Redux-Saga  
 PostGreSQL  
-Chakra-UI
+Chakra-UI  
 Amazon S3
 
 ## Approach
