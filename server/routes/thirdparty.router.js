@@ -33,7 +33,6 @@ router.put('/upload', rejectUnauthenticated, upload.single('file'), (req, res) =
   const itemHeader = req.body.cardHeader;
   const itemHeight = req.body.h;
   const itemWidth = req.body.w;
-  console.log('req.file is: ', req.file)
   const sqlText = `
   UPDATE "added_cards"
     SET "card_settings" = $2,

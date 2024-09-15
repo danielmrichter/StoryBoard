@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Heading, Input, Spacer } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Heading, Input, Spacer } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -21,7 +21,7 @@ function RegisterForm() {
   }; // end registerUser
 
   return (
-    <FormControl className="formPanel" onSubmit={registerUser}>
+    <form className="formPanel" onSubmit={registerUser}>
       <Heading className='loginHeader' as='h2'>Register User</Heading>
       {errors.registrationMessage && (
         <Heading as='h4' className="alert" role="alert">
@@ -53,9 +53,9 @@ function RegisterForm() {
         </FormLabel>
       </div>
       <div>
-        <Input className="btn" type="submit" name="submit" value="Register" />
+        <Button className="btn" type="submit" name="submit" value="Register">Register</Button>
       </div>
-    </FormControl>
+    </form>
   );
 }
 

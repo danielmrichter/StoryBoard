@@ -48,7 +48,7 @@ router.post("/", rejectUnauthenticated, async (req, res) => {
     const projectInsert = await pool.query(sqlText, sqlValues);
     const newProjectId = projectInsert.rows[0].id;
     // wip
-    const title = [{ text: project.projectName }];
+    const title = [{ titleText: project.projectName }];
     const titleCardSqlText = `
       INSERT INTO "added_cards"
          ("project_id", "x" ,"w","card_type", "card_settings")

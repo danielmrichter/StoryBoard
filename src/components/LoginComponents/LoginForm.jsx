@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
+import { Button, FormControl, FormLabel, Heading, Input } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {useSelector} from 'react-redux';
@@ -58,7 +58,7 @@ function LoginForm() {
         </FormLabel>
       </div>
       <div>
-        <Input className="btn" type="submit" name="submit" value="Log In" />
+        <Button className="btn" type="submit" name="submit">Log In</Button>
       </div>
     </form>
   );

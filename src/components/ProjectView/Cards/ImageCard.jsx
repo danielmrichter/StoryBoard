@@ -8,6 +8,7 @@ import {
   Heading,
   IconButton,
   Image,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
@@ -27,12 +28,12 @@ const textCard = forwardRef(function TextCard(
 
   // Delete Modal Stuff
   const handleDelete = () => {
-    dispatch({ type: "DELETE_CARD", payload: {id: item.i, projectId} });
-    setIsDeleteModalOpen(false)
+    dispatch({ type: "DELETE_CARD", payload: { id: item.i, projectId } });
+    setIsDeleteModalOpen(false);
   };
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-  const isEditing = useSelector(store => store.isEditing)
+  const isEditing = useSelector((store) => store.isEditing);
   return (
     <div
       className={className}
@@ -55,7 +56,11 @@ const textCard = forwardRef(function TextCard(
           </CardHeader>
         )}
         <CardBody>
-          <Image src={item.card_settings.img_url} />
+          {item.card_settings.img_url ? (
+            <Image src={item.card_settings.img_url} />
+          ) : (
+            <Text>Click the Edit button to Add an Image!</Text>
+          )}
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal
             isOpen={isDeleteModalOpen}
@@ -65,22 +70,23 @@ const textCard = forwardRef(function TextCard(
             }}
           />
         </CardBody>
-      {isEditing &&
-        <CardFooter>
-          <IconButton
-            zIndex={1}
-            onClick={onToggle}
-            size="sm"
-            icon={<EditIcon />}
-            mr={2}
-          />
-          <IconButton
-            size="sm"
-            icon={<DeleteIcon />}
-            zIndex={1}
-            onClick={() => setIsDeleteModalOpen(true)}
-          />
-        </CardFooter>}
+        {isEditing && (
+          <CardFooter>
+            <IconButton
+              zIndex={1}
+              onClick={onToggle}
+              size="sm"
+              icon={<EditIcon />}
+              mr={2}
+            />
+            <IconButton
+              size="sm"
+              icon={<DeleteIcon />}
+              zIndex={1}
+              onClick={() => setIsDeleteModalOpen(true)}
+            />
+          </CardFooter>
+        )}
       </Card>
     </div>
   );
