@@ -145,6 +145,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
           <>
             <FormLabel htmlFor="bodyText">Body Text:</FormLabel>
             <Textarea
+              placeholder="Body"
               id="bodyText"
               value={bodyTextInput}
               onChange={(e) => setBodyTextInput(e.target.value)}

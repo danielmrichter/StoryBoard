@@ -25,7 +25,7 @@ CREATE TABLE "added_cards" (
 	"project_id" INTEGER REFERENCES "projects" ON DELETE CASCADE,
 	"x" INTEGER DEFAULT 1,
 	"y" INTEGER DEFAULT 1,
-	"w" INTEGER DEFAULT 1,
+	"w" INTEGER DEFAULT 3,
 	"h" INTEGER DEFAULT 1,
 	"bg_color" VARCHAR(50),
 	"card_type" VARCHAR(200),

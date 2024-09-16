@@ -32,6 +32,7 @@ function RegisterForm() {
         <FormLabel htmlFor="username">
           Username:
           <Input
+            variant='filled'
             type="text"
             id="username"
             value={username}
@@ -44,6 +45,7 @@ function RegisterForm() {
         <FormLabel htmlFor="password">
           Password:
           <Input
+          variant='filled'
             type="password"
             id="password"
             value={password}

@@ -26,6 +26,7 @@ export default function CreateProjectForm({ isOpen, onClose }) {
     setProjectName("");
   };
   const firstField = useRef();
+
   return (
     <Drawer
       isOpen={isOpen}
@@ -53,7 +54,8 @@ export default function CreateProjectForm({ isOpen, onClose }) {
             </Box>
           </Stack>
           <DrawerFooter>
-            <Button mr={5}
+            <Button
+              mr={5}
               onClick={(e) => {
                 handleSubmit(e);
                 onClose();
