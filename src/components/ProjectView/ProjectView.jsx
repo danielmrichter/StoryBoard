@@ -55,14 +55,15 @@ export default function ProjectView() {
     <>
       <ResponsiveGridLayout
         className="layout"
-        width={1200}
+        width={1300}
         compactType={null}
         layout={projectItems}
-        cols={{ lg: 10, md: 10, sm: 10, xs: 10, xxs: 10 }}
+        cols={{ lg: 14, md: 14, sm: 14, xs: 14, xxs: 14 }}
         rowHeight={100}
         onDragStart={(layout) => oldLayout= layout}
         onDragStop={handleLayoutChange}
         isDraggable={isEditing}
+        allowOverlap
       >
         {projectItems.map((item) => (
           <ProjectCard

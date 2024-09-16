@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   FormLabel,
@@ -23,6 +23,14 @@ import ImageForm from "./ImageForm/ImageForm";
 export default function PopoverCardEditForm({ onClose, isOpen, item }) {
   const { projectId } = useParams();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (item.card_settings.img_url) {
+      dispatch({
+        type: "SET_IMAGE_URL_INPUT",
+        payload: item.card_settings.img_url,
+      });
+    }
+  }, [item]);
   const isUsingImageUrl = useSelector((store) => store.isUsingImageUrl);
   const imageUrlInput = useSelector((store) => store.imageUrlInput);
 
@@ -99,6 +107,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
       isOpen={isOpen}
       onClose={handlePopoverClose}
       closeOnBlur={true}
+      isLazy
     >
       <PopoverContent>
         <PopoverHeader>Edit Contents</PopoverHeader>
@@ -125,7 +134,7 @@ export default function PopoverCardEditForm({ onClose, isOpen, item }) {
         {item.card_type === "title" && (
           <>
             <FormLabel htmlFor="titleText">Title Text:</FormLabel>
-            <Input
+            <Textarea
               id="titleText"
               value={titleTextInput}
               onChange={(e) => setTitleTextInput(e.target.value)}

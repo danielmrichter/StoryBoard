@@ -32,6 +32,7 @@ function* setCardSettings(action) {
       type: "FETCH_PROJECT_ITEMS",
       payload: action.payload.projectId,
     });
+    yield put({ type: "CLEAR_SETTINGS_REDUCERS" });
   } catch (error) {
     console.log("Error setting Card Text! ", error);
   }
@@ -86,6 +87,7 @@ function* postImageWithUpload(action) {
       type: "FETCH_PROJECT_ITEMS",
       payload: action.payload.projectId,
     });
+    yield put({ type: "CLEAR_SETTINGS_REDUCERS" });
   } catch (error) {
     console.log("error uploading image: ", error);
   }

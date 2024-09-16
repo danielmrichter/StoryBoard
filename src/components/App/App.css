@@ -9,6 +9,8 @@ body,
   margin: 0px;
   background-color: #a9a9a9;
   min-height: 100vh;
+  background-size: cover;
+  overflow: auto;
 }
 
 .formPanel {

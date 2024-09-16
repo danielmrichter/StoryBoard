@@ -34,6 +34,22 @@ const textCard = forwardRef(function TextCard(
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const isEditing = useSelector((store) => store.isEditing);
+
+  const handleImageEditClick = () => {
+    onToggle();
+    if (item.card_settings.img_url) {
+      dispatch({
+        type: "SET_IMAGE_URL_INPUT",
+        payload: item.card_settings.img_url,
+      });
+    } else {
+      dispatch({
+        type: "SET_IMAGE_URL_INPUT",
+        payload: "",
+      });
+    }
+  };
+
   return (
     <div
       className={className}
@@ -74,7 +90,7 @@ const textCard = forwardRef(function TextCard(
           <CardFooter>
             <IconButton
               zIndex={1}
-              onClick={onToggle}
+              onClick={handleImageEditClick}
               size="sm"
               icon={<EditIcon />}
               mr={2}

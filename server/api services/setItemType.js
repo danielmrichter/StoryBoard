@@ -5,7 +5,7 @@ function setItemType(cardType) {
       INSERT INTO "added_cards"
          ("project_id", "card_type", "card_settings", "bg_color")
           VALUES
-          ($1, $2, '{"text": "Click the Edit button to change me!"}', '#FFFFFF');`;
+          ($1, $2, '{}', '#FFFFFF');`;
     case "image":
       return `
       INSERT INTO "added_cards"
@@ -22,9 +22,9 @@ function setItemType(cardType) {
     case "tmdb":
       return `
       INSERT INTO "added_cards"
-         ("project_id", "card_type", "card_settings", "card_header", "bg_color")
+         ("project_id", "card_type", "card_settings", "bg_color")
           VALUES
-          ($1, $2, '{}', 'TMDB Card', '#FFFFFF');
+          ($1, $2, '{}', '#FFFFFF');
       `;
   }
 }

@@ -21,6 +21,7 @@ export default function ImageForm({ setImageFileUploadInput }) {
           <Input
             id="imgUrl"
             type="url"
+            placeholder="Image URL"
             value={imageUrlInput}
             onChange={(e) =>
               dispatch({ type: "SET_IMAGE_URL_INPUT", payload: e.target.value })

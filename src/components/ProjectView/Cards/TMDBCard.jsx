@@ -8,6 +8,7 @@ import {
   Heading,
   IconButton,
   Image,
+  Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import { forwardRef, useState } from "react";
@@ -61,9 +62,9 @@ const TMDBCard = forwardRef(function TMDBCard(
           </CardHeader>
         )}
         <CardBody onClick={handleRedirectClick}>
-          {item.card_settings.tmdb_url && (
+          {item.card_settings.tmdb_url ? (
             <Image src={item.card_settings.tmdb_url} />
-          )}
+          ) : <Text>Click the Edit button to link to TMDB!</Text>}
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal
             isOpen={isDeleteModalOpen}

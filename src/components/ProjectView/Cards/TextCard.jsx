@@ -57,7 +57,7 @@ const textCard = forwardRef(function TextCard(
           </CardHeader>
         )}
         <CardBody>
-          <Text whiteSpace='pre-wrap'>{item.card_settings.text}</Text>
+          <Text whiteSpace='pre-wrap'>{item.card_settings.text ? item.card_settings.text : 'Click the Edit button to Change me!'}</Text>
           <PopoverCardEditForm item={item} isOpen={isOpen} onClose={onClose} />
           <DeleteModal
             isOpen={isDeleteModalOpen}
