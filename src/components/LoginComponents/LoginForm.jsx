@@ -37,6 +37,7 @@ function LoginForm() {
         <FormLabel htmlFor="username">
           Username:
           <Input
+          variant='filled'
             type="text"
             id="username"
             required
@@ -49,6 +50,7 @@ function LoginForm() {
         <FormLabel htmlFor="password">
           Password:
           <Input
+          variant='filled'
             type="password"
             id="password"
             required

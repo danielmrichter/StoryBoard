@@ -1,8 +1,10 @@
 import {
   Flex,
   Heading,
+  Image,
   List,
   ListItem,
+  Spacer,
   Text,
 } from "@chakra-ui/react";
 
