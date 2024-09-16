@@ -8,6 +8,12 @@ StoryBoard is an app that helps you tell stories about telling stories. Using us
 
 This was a solo project built for [Prime Digital Acadamy](https://www.primeacademy.io/).
 
+## Usage
+![StoryBoard New Cards](https://github.com/user-attachments/assets/03b5304e-687f-480c-b5b9-a8a0c55aba0c)
+![StoryBoard Image Upload](https://github.com/user-attachments/assets/3d2addcc-1f86-4141-952c-b580c504b47c)
+![StoryBoard tmdb](https://github.com/user-attachments/assets/8e0db5bd-6c5f-4ffd-9348-fc0c74d0a181)
+
+
 ## Technologies Used
 
 React  
