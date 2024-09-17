@@ -7,7 +7,7 @@ import isEditing from './isEditing.reducer.js'
 import projectOwner from './projectOwner.reducer.js'
 import tmdbSearchResults from './tmdbSearchResults.reducer.js'
 import isUsingImageUrl from "./isUsingImageUrl.reducer.js";
-import imageUrlInput from "./ImageUrlInput.reducer.js";
+import imageUrlInput from "./imageUrlInput.reducer.js";
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
