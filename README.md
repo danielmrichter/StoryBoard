@@ -8,6 +8,8 @@ StoryBoard is an app that helps you tell stories about telling stories. Using us
 
 This was a solo project built for [Prime Digital Acadamy](https://www.primeacademy.io/).
 
+A link to a hosted version on Heroku: [Link](https://storyboard-prime-solo-83bdfbec8c5e.herokuapp.com)
+
 ## Usage
 ![StoryBoard showcase 4](https://github.com/user-attachments/assets/7e1783ec-fa10-443f-9aa3-46b11c490871)
 ![StoryBoard showcase 3](https://github.com/user-attachments/assets/05578f57-360a-4ad9-8c87-be2e4c3f0ff9)
