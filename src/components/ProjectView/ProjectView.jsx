@@ -33,7 +33,7 @@ export default function ProjectView() {
   let oldLayout
   const handleLayoutChange = async (layout) => {
     try {
-      console.log('Changing Layout! ', layout)
+      // console.log('Changing Layout! ', layout)
       await axios.put("/api/projects/items", { projectId, layout });
       oldLayout = layout
     } catch (error) {

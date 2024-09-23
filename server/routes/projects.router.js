@@ -131,8 +131,8 @@ router.patch("/items/:id", rejectUnauthenticated, (req, res) => {
   const itemSettings = req.body.settings;
   const backgroundColor = req.body.backgroundColor;
   const itemHeader = req.body.cardHeader;
-  const itemHeight = req.body.h;
-  const itemWidth = req.body.w;
+  const itemHeight = Math.round(req.body.h);
+  const itemWidth = Math.round(req.body.w);
   const sqlText = `
   UPDATE "added_cards"
     SET "card_settings" = $2,
