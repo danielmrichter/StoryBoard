@@ -38,6 +38,14 @@ After downloading this repo, navigate to the downloaded folder in your terminal.
 ```
 $ ~ npm install
 ```
+Create a .env file. Add in these values:
+```
+TMDB_API_KEY = 'YOUR_TMDB_API_KEY'
+AWS_BUCKET_NAME = 'YOUR_AWS_BUCKET_NAME'
+AWS_ACCESS_KEY = 'YOUR_AWS_ACCESS_KEY'
+AWS_SECRET_KEY = 'YOUR_AWS_SECRET'
+SERVER_SESSION_SECRET = 'YOUR_SERVER_SESSION_SECRET'
+```
 
 Then, in PostGreSQL, execute the queries in database.sql to create the necessary tables.
 
