@@ -10,7 +10,7 @@ const config = {
   initialColorMode: 'light', // 'dark' | 'light'
   useSystemColorMode: false,
 }
-const theme = extendTheme(config)
+const theme = extendTheme({config})
 
 root.render(
   <React.StrictMode>
